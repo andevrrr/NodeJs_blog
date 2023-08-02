@@ -1,8 +1,26 @@
 <%- include('../includes/header.ejs') %>
+<link rel="stylesheet" href="/public/css/posts.css">
 </head>
 <body>
     <%- include('../includes/navigation.ejs') %>
     
-    <p class="pp">Hi, its the posts page!</p>
+    <div class="container">
+        <h1>Simple Blog</h1>
+        <div class="posts">
+            <div class="post">
+                <h2>Post Title 1</h2>
+                <p>Post content goes here.</p>
+                <div class="comments">
+                    <h3>Comments</h3>
+                    <ul class="comment-list">
+                        <li>comment 1</li>
+                        <li>comment 2</li>
+                    </ul>
+                    <input type="text" id="comment" placeholder="Leave a comment">
+                    <button onclick="addComment()">Submit Comment</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

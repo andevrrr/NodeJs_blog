@@ -1,8 +1,50 @@
 <%- include('../includes/header.ejs') %>
+<link rel="stylesheet" href="/public/css/products.css">
 </head>
 <body>
     <%- include('../includes/navigation.ejs') %>
     
-    <p class="pp">Hi, its the products page!</p>
+    <main>
+        <h1>Our products</h1>
+        <div class="grid">
+            <article class="product_item">
+                <header class="product_item_header">
+                    <h1>Product title</h1>
+                </header>
+                <div class="product_item_image">
+                    <img src="" alt="">
+                </div>
+                <div class="product_item_info">
+                    <h2>Product price</h2>
+                    <p>Product description</p>
+                    <p>in stock</p>
+                </div>
+                <div class="product_item_actions">
+                    <div>
+                        <a href="" class="btn">Details</a>
+                    </div>
+                </div>
+            </article>
+            <article class="product_item">
+                <header class="product_item_header">
+                    <h1>Product title</h1>
+                </header>
+                <div class="product_item_image">
+                    <img src="" alt="">
+                </div>
+                <div class="product_item_info">
+                    <h2>Product price</h2>
+                    <p>Product description</p>
+                    <p>in stock</p>
+                </div>
+                <div class="product_item_actions">
+                    <div>
+                        <a href="" class="btn">Details</a>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
 </body>
 </html>

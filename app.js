@@ -6,7 +6,9 @@ const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-
+const csrf = require('csurf');
+const errorController = require('./controllers/error');
+const User = require('./models/user');
 
 const app = express();
 
@@ -33,6 +35,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/public", express.static(path.join(__dirname, "public")));
 
+const csrfProtection = csrf();
+
 app.use(
     session(
         {
@@ -43,7 +47,14 @@ app.use(
         }
     )
 );
+app.use(csrfProtection);
 app.use((flash()));
+
+app.use((req, res, next) => {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
+    next();
+})
 
 app.use((req, res, next) => {
     if (!req.session.user) {
@@ -64,8 +75,20 @@ app.use((req, res, next) => {
 
 // routes
 app.use(blogRouter);
-app.use("/admin", adminRouter);
+app.use(adminRouter);
 app.use(authRouter);
+
+app.get('/500', errorController.get500);
+
+app.use((error, req, res, next) => {
+    console.log(error);
+    res.status(500).render('500', {
+        pageTitle: 'Error!',
+        path: '/500',
+        isAuthenticated: req.session.isLoggedIn
+    })
+})
+
 
 mongoose
   .connect(MONGO_DB_URI)

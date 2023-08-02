@@ -4,6 +4,8 @@ const router = express();
 
 const blogController = require('../controllers/blog');
 
+const isAuth = require('../middleware/is-auth');
+
 router.get('/', blogController.getMain);
 
 router.get('/services', blogController.getServices);

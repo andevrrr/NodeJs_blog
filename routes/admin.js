@@ -2,6 +2,10 @@ const express = require('express');
 
 const router = express();
 
-router.get('/');
+const adminController = require('../controllers/admin');
+
+router.get('/add-service', adminController.getCreateService);
+
+router.post('/add-service', adminController.postCreateService);
 
 module.exports = router;

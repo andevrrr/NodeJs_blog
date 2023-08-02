@@ -1,0 +1,38 @@
+<%- include('../includes/header.ejs') %>
+<link rel="stylesheet" href="/public/css/services.css">
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    
+    <div class="services">
+        <form action="/add-service" method="POST" enctype="multipart/form-data">
+            <ul class="list_outer">
+                <li>
+                    <ul class="list_inner">
+                        <li>
+                            <div>
+                                <label for="name">Name</label>
+                                <input type="text" name="name" id="name">
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label for="time">Time</label>
+                                <input type="text" name="time" id="time">
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label for="price">Price</label>
+                                <input type="text" name="price" id="price">
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button class="btn" type="submit">Add</button>
+        </form>
+    </div>
+</body>
+</html>

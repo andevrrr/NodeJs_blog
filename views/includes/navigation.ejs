@@ -1,0 +1,19 @@
+<header>
+    <div class="nav">
+        <ul class="nav-list">
+            <li><a class="<%= path === '/' ? 'active' : '' %>" href="/">Main</a></li>
+            <li><a class="<%= path === '/services' ? 'active' : '' %>" href="/services">Services</a></li>
+                <li><a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a></li>
+                <li><a class="<%= path === '/posts' ? 'active' : '' %>" href="/posts">Posts</a></li>
+        </ul>
+        <ul class="nav-list">
+                <li><a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a></li>
+                <li><a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">SignUp</a></li>
+                    <li class="main-header__item">
+                        <form action="/logout" method="post">
+                            <button type="submit">Logout</button>
+                        </form>
+                    </li>
+        </ul>
+    </div>
+</header>

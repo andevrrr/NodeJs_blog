@@ -9,22 +9,28 @@
         <% if (isAuthenticated) { %>
             <a href="/admin/add-service">Add service</a>
         <% } %>
-        <% for (let service of services) { %>
-            <ul class="list_outer">
-                <li>
-                    <ul class="list_inner">
+        <% if (services.length > 0) { %>
+            <div>
+                <% for (let service of services) { %>
+                    <ul class="list_outer">
                         <li>
-                            <%= service.name %>
-                        </li>
-                        <li>
-                            <%= service.time %>
-                        </li>
-                        <li>
-                            <%= service.price %>
+                            <ul class="list_inner">
+                                <li>
+                                    <%= service.name %>
+                                </li>
+                                <li>
+                                    <%= service.time %>
+                                </li>
+                                <li>
+                                    <%= service.price %>$
+                                </li>
+                            </ul>
                         </li>
                     </ul>
-                </li>
-            </ul>
+                <% } %>
+            </div>
+        <% } else { %>
+            <h2>No services found</h2>
         <% } %>
     </div>
 </body>

@@ -1,39 +1,50 @@
 <%- include('../includes/header.ejs') %>
+<link rel="stylesheet" href="/public/css/products.css">
 </head>
 <body>
     <%- include('../includes/navigation.ejs') %>
     
-    <main class="services">
-        <form action="/admin/add-service" method="POST">
-            <ul class="list_outer">
-                <li>
-                    <ul class="list_inner">
-                        <li>
-                            <div>
-                                <label for="name">Name</label>
-                                <input type="text" name="name" id="name">
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <label for="time">Time</label>
-                                <input type="text" name="time" id="time">
-                            </div>
-                        </li>
-                        <li>
-                            <div>
-                                <label for="price">Price</label>
-                                <input type="text" name="price" id="price">
-                            </div>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <div>
+    <main>
+        <div class="product">
+            <form class="product-form" action="/admin/add-product" method="POST">
+                <div class="form-control">
+                    <label for="title">Title</label>
+                    <input 
+                        type="text" 
+                        name="title" 
+                        id="title" 
+                        value="">
+                </div>
+
+                <div class="form-control">
+                    <label for="price">Price</label>
+                    <input 
+                        type="number" 
+                        name="price" 
+                        id="price" 
+                        step="0.01" 
+                        value="">
+                </div>
+                <div class="form-control">
+                    <label for="description">Description</label>
+                    <textarea 
+                        name="description" 
+                        id="description" 
+                        rows="5"
+                        class="color:black">
+                    </textarea>
+                </div>
+                <div class="stock-status">
+                    <label>
+                        <input type="checkbox" name="inStock" id="inStock" value="true">
+                        <span class="checkmark"></span>
+                        In Stock
+                    </label>
+                </div>
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <button class="btn" type="submit">Add</button>
-            </div>
-        </form>
+                <button class="btn" type="submit">Add product</button>
+            </form>
+        </div>
     </main>
 </body>
 </html>

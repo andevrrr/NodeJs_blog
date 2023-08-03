@@ -7,46 +7,38 @@
     <main>
         <h1>Our products</h1>
         <% if (isAuthenticated) { %>
-            <a href="/admin/add-service">Add product</a>
+            <a href="/admin/add-product">Add product</a>
         <% } %>
-        <div class="grid">
-            <article class="product_item">
-                <header class="product_item_header">
-                    <h1>Product title</h1>
-                </header>
-                <div class="product_item_image">
-                    <img src="" alt="">
-                </div>
-                <div class="product_item_info">
-                    <h2>Product price</h2>
-                    <p>Product description</p>
-                    <p>in stock</p>
-                </div>
-                <div class="product_item_actions">
-                    <div>
-                        <a href="" class="btn">Details</a>
-                    </div>
-                </div>
-            </article>
-            <article class="product_item">
-                <header class="product_item_header">
-                    <h1>Product title</h1>
-                </header>
-                <div class="product_item_image">
-                    <img src="" alt="">
-                </div>
-                <div class="product_item_info">
-                    <h2>Product price</h2>
-                    <p>Product description</p>
-                    <p>in stock</p>
-                </div>
-                <div class="product_item_actions">
-                    <div>
-                        <a href="" class="btn">Details</a>
-                    </div>
-                </div>
-            </article>
-        </div>
+        <% if (products.length > 0) { %>
+            <div class="grid">
+                <% for (let product of products) { %>
+                    <article class="product_item">
+                        <header class="product_item_header">
+                            <h1><%= product.title %></h1>
+                        </header>
+                        <div class="product_item_image">
+                            <img src="" alt="">
+                        </div>
+                        <div class="product_item_info">
+                            <h2><%= product.price %>$</h2>
+                            <p><%= product.description %></p>
+                            <% if (product.inStock) { %>
+                                <p>In stock</p>
+                            <% } else { %>
+                                <p>Out of stock</p>
+                            <% } %>
+                        </div>
+                        <div class="product_item_actions">
+                            <div>
+                                <a href="" class="btn">Details</a>
+                            </div>
+                        </div>
+                    </article>
+                <% } %>
+            </div>
+        <% } else { %>
+            <h2>No products found</h2>
+        <% } %>
     </main>
 
 </body>

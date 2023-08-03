@@ -3,14 +3,37 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
     
-    <p class="pp">Hi, its the main page!</p>
-
-    <p class="pp">Slide</p>
-
-    <p class="pp">Latest news</p>
-
-    <p class="pp">Featured products</p>
-
-    <p class="pp">Popular services</p>
+    <main class="services">
+        <form action="/admin/add-service" method="POST">
+            <ul class="list_outer">
+                <li>
+                    <ul class="list_inner">
+                        <li>
+                            <div>
+                                <label for="name">Name</label>
+                                <input type="text" name="name" id="name">
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label for="time">Time</label>
+                                <input type="text" name="time" id="time">
+                            </div>
+                        </li>
+                        <li>
+                            <div>
+                                <label for="price">Price</label>
+                                <input type="text" name="price" id="price">
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button class="btn" type="submit">Add</button>
+            </div>
+        </form>
+    </main>
 </body>
 </html>

@@ -6,6 +6,9 @@
     
     <main>
         <h1>Our products</h1>
+        <% if (isAuthenticated) { %>
+            <a href="/admin/add-service">Add product</a>
+        <% } %>
         <div class="grid">
             <article class="product_item">
                 <header class="product_item_header">

@@ -4,8 +4,8 @@
 <body>
     <%- include('../includes/navigation.ejs') %>
     
-    <div class="services">
-        <form action="/add-service" method="POST" enctype="multipart/form-data">
+    <main class="services">
+        <form action="/admin/add-service" method="POST">
             <ul class="list_outer">
                 <li>
                     <ul class="list_inner">
@@ -30,9 +30,11 @@
                     </ul>
                 </li>
             </ul>
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button class="btn" type="submit">Add</button>
+            <div>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button class="btn" type="submit">Add</button>
+            </div>
         </form>
-    </div>
+    </main>
 </body>
 </html>

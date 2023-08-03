@@ -1,3 +1,4 @@
+const Service = require('../models/service');
 
 exports.getMain = (req, res, next) => {
     res.render('blog/main', {
@@ -7,10 +8,17 @@ exports.getMain = (req, res, next) => {
 }
 
 exports.getServices = (req, res, next) => {
-    res.render('blog/services', {
-        pageTitle: 'Our services',
-        path: '/services'
-    });
+    Service.find()
+    .then(services => {
+        res.render('blog/services', {
+            pageTitle: 'Our services',
+            path: '/services',
+            services: services 
+        });
+    })
+    .catch(err => {
+        console.log(err);
+    })
 }
 
 exports.getProducts = (req, res, next) => {

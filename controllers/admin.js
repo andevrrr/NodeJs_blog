@@ -3,7 +3,7 @@ const Service = require('../models/service');
 exports.getCreateService = (req, res, next) => {
     res.render('admin/service.ejs', {
         pageTitle: 'Add Product',
-        path: '/add-service'
+        path: '/admin/add-service'
     })
 }
 

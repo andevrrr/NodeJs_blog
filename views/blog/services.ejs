@@ -27,6 +27,15 @@
                             </ul>
                         </li>
                     </ul>
+                    <% if (isAuthenticated) { %>
+                        <div class="service_item_actions">
+                            <a href="/admin/add-service/<%= service._id %>?edit=true" class="btn">Edit</a>
+                            <form action="/admin/delete-service/<%= service._id %>" method="POST">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <button type="submit" class="btn">Delete</button>
+                            </form>
+                        </div>
+                    <% } %>
                 <% } %>
             </div>
         <% } else { %>

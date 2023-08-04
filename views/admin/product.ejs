@@ -9,7 +9,7 @@
             <% if (errorMessage) { %>
                 <div class="user-message user-message--error"><%= errorMessage %></div>
                 <% } %>
-            <form class="product-form" action="/admin/add-product" method="POST" enctype="multipart/form-data">
+            <form class="product-form" action="/admin/<% if (editing) { %>edit-product<% } else { %>add-product<% } %>" method="POST" enctype="multipart/form-data">
                 <div class="form-control">
                     <label for="title">Title</label>
                     <input 
@@ -46,13 +46,16 @@
                 </div>
                 <div class="stock-status">
                     <label>
-                        <input type="checkbox" name="inStock" id="inStock" value="true">
+                        <input type="checkbox" name="inStock" id="inStock" value="true" <% if (editing || hasError) { if (product.inStock) { %>checked<% } } %>>
                         <span class="checkmark"></span>
                         In Stock
                     </label>
                 </div>
+                <% if (editing) { %>
+                    <input type="hidden" value="<%= product._id %>" name="productId">
+                <% } %>
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <button class="btn" type="submit">Add product</button>
+                <button class="btn" type="submit"><% if (editing) { %>Update Product<% } else { %>Add Product<% } %></button>
             </form>
         </div>
     </main>

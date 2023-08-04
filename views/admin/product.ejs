@@ -6,16 +6,25 @@
     
     <main>
         <div class="product">
-            <form class="product-form" action="/admin/add-product" method="POST">
+            <% if (errorMessage) { %>
+                <div class="user-message user-message--error"><%= errorMessage %></div>
+                <% } %>
+            <form class="product-form" action="/admin/add-product" method="POST" enctype="multipart/form-data">
                 <div class="form-control">
                     <label for="title">Title</label>
                     <input 
                         type="text" 
                         name="title" 
                         id="title" 
-                        value="">
+                        value="<% if (editing || hasError) { %><%= product.title %><% } %>">
                 </div>
-
+                <div class="form-control">
+                    <label for="image">Image</label>
+                    <input 
+                        type="file" 
+                        name="image" 
+                        id="image" >
+                </div>
                 <div class="form-control">
                     <label for="price">Price</label>
                     <input 
@@ -23,7 +32,7 @@
                         name="price" 
                         id="price" 
                         step="0.01" 
-                        value="">
+                        value="<% if (editing || hasError) { %><%= product.price %><% } %>">
                 </div>
                 <div class="form-control">
                     <label for="description">Description</label>
@@ -32,6 +41,7 @@
                         id="description" 
                         rows="5"
                         class="color:black">
+                        <% if (editing || hasError) { %><%= product.description %><% } %>
                     </textarea>
                 </div>
                 <div class="stock-status">

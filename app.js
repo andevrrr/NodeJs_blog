@@ -9,11 +9,21 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const csrf = require('csurf');
 const errorController = require('./controllers/error');
 const User = require('./models/user');
+const multer = require('multer');
 
 const app = express();
 
 const port = process.env.PORT;
 const MONGO_DB_URI = process.env.MONGO_DB_URL;
+
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'images');
+    },
+    filename: (req, file, cb) => {
+        cb(null, new Date().toISOString() + '-' + file.originalname);
+    }
+});
 
 const store = new MongoDBStore({
     uri: MONGO_DB_URI,
@@ -29,11 +39,21 @@ const blogRouter = require("./routes/blog");
 app.set("view engine", "ejs");
 app.set("views", "views");
 
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
 // Parse incoming requests with JSON payloads
 app.use(bodyParser.json());
 // Parse incoming requests with URL-encoded payloads
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/public", express.static(path.join(__dirname, "public")));
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'))
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 const csrfProtection = csrf();
 

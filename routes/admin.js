@@ -38,9 +38,9 @@ router.get('/edit-post/:postId', adminController.getEditPost);
 
 router.post('/edit-post', adminController.postEditPost);
 
-router.post('/delete-comment/:postId/comments/:commentId', adminController.postDeleteCommentPost);
+router.post('/delete-comment/post/:id/comments/:commentId', adminController.postDeleteComment(Post, '/posts'));
 
-router.post('/delete-comment/:productId/comments/:commentId', adminController.postDeleteCommentProduct);
+router.post('/delete-comment/product/:id/comments/:commentId', adminController.postDeleteComment(Product, '/details/'));
 
 router.post('/products/status/:id', adminController.postStatus(Product, 'isVisible', '/products'));
 

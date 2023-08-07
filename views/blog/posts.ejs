@@ -22,7 +22,7 @@
                                 <% for (let comment of post.comments) { %>
                                     <li><%= comment.text %></li>
                                     <li>
-                                        <form action="/admin/delete-comment/<%= post._id %>/comments/<%= comment._id %>" method="POST">
+                                        <form action="/admin/delete-comment/post/<%= post._id %>/comments/<%= comment._id %>" method="POST">
                                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                             <button type="submit" class="btn">Delete</button>
                                         </form>

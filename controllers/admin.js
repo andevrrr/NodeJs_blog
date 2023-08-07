@@ -415,6 +415,40 @@ exports.postEditPost = (req, res, next) => {
     });
 };
 
+exports.postDeleteComment = (Model, redirectUrl) => {
+  return (req, res, next) => {
+    const itemId = req.params.id;
+    const commentId = req.params.commentId;
+
+    Model.findById(itemId)
+      .then((item) => {
+        if (!item) {
+          return res.status(404).json({ message: "Not found" });
+        }
+        if (redirectUrl === '/details/') {
+            redirectUrl += `${itemId}`;
+          }
+        // Find the comment by its id and remove it from the comments array
+        const commentIndex = item.comments.findIndex(
+          (comment) => comment.id === commentId
+        );
+        if (commentIndex !== -1) {
+          item.comments.splice(commentIndex, 1);
+          return item.save();
+        } else {
+          return res.status(404).json({ message: "Comment not found" });
+        }
+      })
+      .then((result) => {
+        res.redirect(redirectUrl); // Redirect to the post list
+      })
+      .catch((err) => {
+        console.log(err);
+        res.redirect(redirectUrl);
+      });
+  };
+};
+
 exports.postDeleteCommentPost = (req, res, next) => {
   const postId = req.params.postId;
   const commentId = req.params.commentId;
@@ -482,7 +516,7 @@ exports.postStatus = (Model, field, redirectUrl) => {
     Model.findById(itemId)
       .then((item) => {
         if (!item) {
-          return res.status(404).json({ message: "Item not found" });
+          return res.status(404).json({ message: "Not found" });
         }
 
         item[field] = !item[field];

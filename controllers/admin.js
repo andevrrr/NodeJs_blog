@@ -449,66 +449,6 @@ exports.postDeleteComment = (Model, redirectUrl) => {
   };
 };
 
-exports.postDeleteCommentPost = (req, res, next) => {
-  const postId = req.params.postId;
-  const commentId = req.params.commentId;
-
-  Post.findById(postId)
-    .then((post) => {
-      if (!post) {
-        return res.status(404).json({ message: "Post not found" });
-      }
-
-      // Find the comment by its id and remove it from the comments array
-      const commentIndex = post.comments.findIndex(
-        (comment) => comment.id === commentId
-      );
-      if (commentIndex !== -1) {
-        post.comments.splice(commentIndex, 1);
-        return post.save();
-      } else {
-        return res.status(404).json({ message: "Comment not found" });
-      }
-    })
-    .then((result) => {
-      res.redirect("/posts"); // Redirect to the post list
-    })
-    .catch((err) => {
-      console.log(err);
-      res.redirect("/posts");
-    });
-};
-
-exports.postDeleteCommentProduct = (req, res, next) => {
-  const productId = req.params.postId;
-  const commentId = req.params.commentId;
-
-  Product.findById(productId)
-    .then((product) => {
-      if (!product) {
-        return res.status(404).json({ message: "Product not found" });
-      }
-
-      // Find the comment by its id and remove it from the comments array
-      const commentIndex = product.comments.findIndex(
-        (comment) => comment.id === commentId
-      );
-      if (commentIndex !== -1) {
-        product.comments.splice(commentIndex, 1);
-        return product.save();
-      } else {
-        return res.status(404).json({ message: "Comment not found" });
-      }
-    })
-    .then((result) => {
-      res.redirect("/products"); // Redirect to the post list
-    })
-    .catch((err) => {
-      console.log(err);
-      res.redirect("/products");
-    });
-};
-
 exports.postStatus = (Model, field, redirectUrl) => {
   return (req, res, next) => {
     const itemId = req.params.id;

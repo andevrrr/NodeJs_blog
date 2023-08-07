@@ -13,6 +13,14 @@ const postSchema = new Schema({
     type: String,
     required: true
   },
+  isFeatured: {
+    type: Boolean,
+    default: false
+},
+isVisible: {
+    type: Boolean,
+    default: true
+},
   comments: [commentSchema] 
 });
 

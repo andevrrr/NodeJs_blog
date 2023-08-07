@@ -1,16 +1,61 @@
 <%- include('../includes/header.ejs') %>
+<link rel="stylesheet" href="/public/css/main.css">
 </head>
 <body>
     <%- include('../includes/navigation.ejs') %>
     
-    <p class="pp">Hi, its the main page!</p>
-
-    <p class="pp">Slide</p>
-
-    <p class="pp">Latest news</p>
-
-    <p class="pp">Featured products</p>
-
-    <p class="pp">Popular services</p>
+    <main>
+        <div class="main_content">
+            <div>Slide banner</div>
+            <div class="posts">
+                <% if (posts.length > 0) { %>
+                    <% for (let post of posts) { %>
+                        <% if (post.isVisible) {%>
+                            <div>
+                                <h3><%= post.title %></h3>
+                                <p><%= post.content.substring(0, 100) + (post.content.length > 100 ? '...' : '') %></p>
+                            </div>
+                        <% } %>
+                    <% } %>
+                <% } else { %>
+                    <p>No posts found...</p>
+                <% } %>
+            </div>
+            <div class="services">
+                <% if (services.length > 0) { %>
+                    <% for (let service of services) { %>
+                        <% if (service.isVisible) {%>
+                            <div>
+                                <h3><%= service.name %></h3>
+                                <p><%= service.price %>$</p>
+                            </div>
+                        <% } %>
+                    <% } %>
+                <% } else { %>
+                    <p>No services found...</p>
+                <% } %>
+            </div>
+            <div class="products">
+                <% if (products.length > 0) { %>
+                        <% for (let product of products) { %>
+                            <% if (product.isVisible) {%>
+                                <div class="pro">
+                                    <h3><%= product.title %></h3>
+                                    <img src="/<%= product.image %>" alt="">
+                                    <div>
+                                        <p><%= product.description.substring(0, 70) + (product.description.length > 70 ? '...' : '') %></p>
+                                        <p class="price"><%= product.price %>$</p>
+                                    </div>
+                                    <a href="/details/<%= product._id %>">more</a>
+                                </div>
+                            <% } %>
+                        <% } %>
+                <% } else { %>
+                    <p>No products found...</p>
+                <% } %>
+            </div>
+        </div>
+    </main>
+    
 </body>
 </html>

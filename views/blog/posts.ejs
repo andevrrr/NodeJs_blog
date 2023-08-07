@@ -12,38 +12,44 @@
         <div class="posts">
             <% if (posts.length > 0) { %>
             <% for (let post of posts) { %>
-                <div class="post">
-                    <h2><%= post.title %></h2>
-                    <p><%= post.content %></p>
-                    <div class="comments">
-                        <h3>Comments</h3>
-                        <ul class="comment-list">
-                            <% for (let comment of post.comments) { %>
-                                <li><%= comment.text %></li>
-                                <li>
-                                    <form action="/admin/delete-comment/<%= post._id %>/comments/<%= comment._id %>" method="POST">
-                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                        <button type="submit" class="btn">Delete</button>
-                                    </form>
-                                </li>
-                            <% } %>
-                        </ul>
-                        <form class="comment-form" action="/posts/<%= post._id %>" method="POST">
-                            <input type="text" id="comment" name="comment" placeholder="Leave a comment">
-                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                            <button type="submit">Submit Comment</button>
-                        </form>
-                    </div>
-                    <% if (isAuthenticated) { %>
-                        <div class=postt_item_actions">
-                            <a href="/admin/edit-post/<%= post._id %>?edit=true" class="btn">Edit</a>
-                            <form action="/admin/delete-post/<%= post._id %>" method="POST">
+                <% if ((post.isVisible && !isAuthenticated) || isAuthenticated) { %>
+                    <div class="post">
+                        <h2><%= post.title %></h2>
+                        <p><%= post.content %></p>
+                        <div class="comments">
+                            <h3>Comments</h3>
+                            <ul class="comment-list">
+                                <% for (let comment of post.comments) { %>
+                                    <li><%= comment.text %></li>
+                                    <li>
+                                        <form action="/admin/delete-comment/<%= post._id %>/comments/<%= comment._id %>" method="POST">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <button type="submit" class="btn">Delete</button>
+                                        </form>
+                                    </li>
+                                <% } %>
+                            </ul>
+                            <form class="comment-form" action="/posts/<%= post._id %>" method="POST">
+                                <input type="text" id="comment" name="comment" placeholder="Leave a comment">
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                <button type="submit" class="btn">Delete</button>
+                                <button type="submit">Submit Comment</button>
                             </form>
                         </div>
-                    <% } %>
-                </div>
+                        <% if (isAuthenticated) { %>
+                            <div class=postt_item_actions">
+                                <a href="/admin/edit-post/<%= post._id %>?edit=true" class="btn">Edit</a>
+                                <form action="/admin/delete-post/<%= post._id %>" method="POST">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <button type="submit" class="btn">Delete</button>
+                                </form>
+                                <form action="/admin/posts/status/<%= post._id %>" method="POST">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <button type="submit" class="btn"><%= post.isVisible ? 'Visible' : 'Invisible' %></button>
+                                </form>
+                            </div>
+                        <% } %>
+                    </div>
+                <% } %>
             <% } %>
             <% } else { %>
                 <h2>No posts found</h2>

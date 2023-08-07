@@ -25,6 +25,14 @@ const productSchema = new Schema({
         type: Boolean,
         required: true
     },
+    isFeatured: {
+        type: Boolean,
+        default: false
+    },
+    isVisible: {
+        type: Boolean,
+        default: true
+    },
     comments: [commentSchema] 
 });
 

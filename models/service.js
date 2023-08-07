@@ -14,6 +14,14 @@ const serviceSchema = new Schema({
     price: {
         type: String,
         required: true
+    },
+    isFeatured: {
+        type: Boolean,
+        default: false
+    },
+    isVisible: {
+        type: Boolean,
+        default: true
     }
 })
 

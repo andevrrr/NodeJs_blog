@@ -3,10 +3,24 @@ const Product = require('../models/product');
 const Post = require("../models/post");
 
 exports.getMain = (req, res, next) => {
-    res.render('blog/main', {
-        pageTitle: 'Main',
-        path: '/'
-    });
+
+    const post = Post.find().exec();
+    const service = Service.find().exec();
+    const product = Product.find().exec();
+
+    Promise.all([post, service, product])
+    .then(([posts, services, products]) => {
+        res.render('blog/main', {
+            pageTitle: 'Main',
+            path: '/',
+            posts: posts,
+            services: services,
+            products: products
+        });
+    })
+    .catch(err => {
+        console.log('/');
+    })
 }
 
 exports.getServices = (req, res, next) => {

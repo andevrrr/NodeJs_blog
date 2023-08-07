@@ -34,9 +34,14 @@ router.get('/edit-post/:postId', adminController.getEditPost);
 
 router.post('/edit-post', adminController.postEditPost);
 
-
 router.post('/delete-comment/:postId/comments/:commentId', adminController.postDeleteCommentPost);
 
 router.post('/delete-comment/:productId/comments/:commentId', adminController.postDeleteCommentProduct);
+
+router.post('/products/status/:productId', adminController.postIsVisibleProduct);
+
+router.post('/services/status/:serviceId', adminController.postIsVisibleService);
+
+router.post('/posts/status/:postId', adminController.postIsVisiblePost);
 
 module.exports = router;

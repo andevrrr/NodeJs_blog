@@ -470,3 +470,81 @@ exports.postDeleteCommentProduct = (req, res, next) => {
             res.redirect('/products');
         });
 };
+
+exports.postIsVisibleProduct = (req, res, next) => {
+    const prodId = req.params.productId;
+
+    Product.findById(prodId)
+    .then(product => {
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        if (product.isVisible) {
+            product.isVisible = false;
+        } else {
+            product.isVisible = true;
+        }
+
+        return product.save();
+    })
+    .then(result => {
+        res.redirect('/products'); // Redirect to the post list
+    })
+    .catch(err => {
+        console.log(err);
+        res.redirect('/products');
+    });
+}
+
+exports.postIsVisibleService = (req, res, next) => {
+    const prodId = req.params.serviceId;
+
+    Service.findById(prodId)
+    .then(service => {
+        if (!service) {
+            return res.status(404).json({ message: 'Service not found' });
+        }
+
+        if (service.isVisible) {
+            service.isVisible = false;
+        } else {
+            service.isVisible = true;
+        }
+
+        return service.save();
+    })
+    .then(result => {
+        res.redirect('/services'); // Redirect to the post list
+    })
+    .catch(err => {
+        console.log(err);
+        res.redirect('/services');
+    });
+}
+
+exports.postIsVisiblePost = (req, res, next) => {
+    const prodId = req.params.postId;
+
+    Post.findById(prodId)
+    .then(post => {
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        if (post.isVisible) {
+            post.isVisible = false;
+        } else {
+            post.isVisible = true;
+        }
+
+        return post.save();
+    })
+    .then(result => {
+        res.redirect('/posts'); 
+    })
+    .catch(err => {
+        console.log(err);
+        res.redirect('/posts');
+    });
+}

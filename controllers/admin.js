@@ -1,7 +1,7 @@
 const Service = require("../models/service");
 const Product = require("../models/product");
-const fileHelper = require("../utils/file");
 const Post = require("../models/post");
+const fileHelper = require("../utils/file");
 
 const { validationResult } = require("express-validator");
 
@@ -16,14 +16,14 @@ exports.getCreateService = (req, res, next) => {
 };
 
 exports.getCreateProduct = (req, res, next) => {
-    res.render("admin/product.ejs", {
-      pageTitle: "Add Product",
-      path: "/admin/add-product",
-      hasError: false,
-      editing: false,
-      errorMessage: "",
-    });
-  };
+  res.render("admin/product.ejs", {
+    pageTitle: "Add Product",
+    path: "/admin/add-product",
+    hasError: false,
+    editing: false,
+    errorMessage: "",
+  });
+};
 
 exports.postCreateService = (req, res, next) => {
   const name = req.body.name;
@@ -416,213 +416,241 @@ exports.postEditPost = (req, res, next) => {
 };
 
 exports.postDeleteCommentPost = (req, res, next) => {
-    const postId = req.params.postId;
-    const commentId = req.params.commentId;
+  const postId = req.params.postId;
+  const commentId = req.params.commentId;
 
-    Post.findById(postId)
-        .then(post => {
-            if (!post) {
-                return res.status(404).json({ message: 'Post not found' });
-            }
+  Post.findById(postId)
+    .then((post) => {
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
 
-            // Find the comment by its id and remove it from the comments array
-            const commentIndex = post.comments.findIndex(comment => comment.id === commentId);
-            if (commentIndex !== -1) {
-                post.comments.splice(commentIndex, 1);
-                return post.save();
-            } else {
-                return res.status(404).json({ message: 'Comment not found' });
-            }
-        })
-        .then(result => {
-            res.redirect('/posts'); // Redirect to the post list
-        })
-        .catch(err => {
-            console.log(err);
-            res.redirect('/posts');
-        });
+      // Find the comment by its id and remove it from the comments array
+      const commentIndex = post.comments.findIndex(
+        (comment) => comment.id === commentId
+      );
+      if (commentIndex !== -1) {
+        post.comments.splice(commentIndex, 1);
+        return post.save();
+      } else {
+        return res.status(404).json({ message: "Comment not found" });
+      }
+    })
+    .then((result) => {
+      res.redirect("/posts"); // Redirect to the post list
+    })
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/posts");
+    });
 };
 
 exports.postDeleteCommentProduct = (req, res, next) => {
-    const productId = req.params.postId;
-    const commentId = req.params.commentId;
+  const productId = req.params.postId;
+  const commentId = req.params.commentId;
 
-    Product.findById(productId)
-        .then(product => {
-            if (!product) {
-                return res.status(404).json({ message: 'Product not found' });
-            }
+  Product.findById(productId)
+    .then((product) => {
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
 
-            // Find the comment by its id and remove it from the comments array
-            const commentIndex = product.comments.findIndex(comment => comment.id === commentId);
-            if (commentIndex !== -1) {
-                product.comments.splice(commentIndex, 1);
-                return product.save();
-            } else {
-                return res.status(404).json({ message: 'Comment not found' });
-            }
-        })
-        .then(result => {
-            res.redirect('/products'); // Redirect to the post list
-        })
-        .catch(err => {
-            console.log(err);
-            res.redirect('/products');
-        });
+      // Find the comment by its id and remove it from the comments array
+      const commentIndex = product.comments.findIndex(
+        (comment) => comment.id === commentId
+      );
+      if (commentIndex !== -1) {
+        product.comments.splice(commentIndex, 1);
+        return product.save();
+      } else {
+        return res.status(404).json({ message: "Comment not found" });
+      }
+    })
+    .then((result) => {
+      res.redirect("/products"); // Redirect to the post list
+    })
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/products");
+    });
 };
 
 exports.postIsVisibleProduct = (req, res, next) => {
-    const prodId = req.params.productId;
+  const prodId = req.params.productId;
 
-    Product.findById(prodId)
-    .then(product => {
-        if (!product) {
-            return res.status(404).json({ message: 'Product not found' });
-        }
+  Product.findById(prodId)
+    .then((product) => {
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
 
-        if (product.isVisible) {
-            product.isVisible = false;
-        } else {
-            product.isVisible = true;
-        }
+      if (product.isVisible) {
+        product.isVisible = false;
+      } else {
+        product.isVisible = true;
+      }
 
-        return product.save();
+      return product.save();
     })
-    .then(result => {
-        res.redirect('/products'); // Redirect to the post list
+    .then((result) => {
+      res.redirect("/products"); // Redirect to the post list
     })
-    .catch(err => {
-        console.log(err);
-        res.redirect('/products');
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/products");
     });
-}
+};
 
 exports.postIsVisibleService = (req, res, next) => {
-    const prodId = req.params.serviceId;
+  const prodId = req.params.serviceId;
 
-    Service.findById(prodId)
-    .then(service => {
-        if (!service) {
-            return res.status(404).json({ message: 'Service not found' });
-        }
+  Service.findById(prodId)
+    .then((service) => {
+      if (!service) {
+        return res.status(404).json({ message: "Service not found" });
+      }
 
-        if (service.isVisible) {
-            service.isVisible = false;
-        } else {
-            service.isVisible = true;
-        }
+      if (service.isVisible) {
+        service.isVisible = false;
+      } else {
+        service.isVisible = true;
+      }
 
-        return service.save();
+      return service.save();
     })
-    .then(result => {
-        res.redirect('/services'); // Redirect to the post list
+    .then((result) => {
+      res.redirect("/services"); // Redirect to the post list
     })
-    .catch(err => {
-        console.log(err);
-        res.redirect('/services');
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/services");
     });
-}
+};
 
 exports.postIsVisiblePost = (req, res, next) => {
-    const prodId = req.params.postId;
+  const prodId = req.params.postId;
 
-    Post.findById(prodId)
-    .then(post => {
-        if (!post) {
-            return res.status(404).json({ message: 'Post not found' });
-        }
+  Post.findById(prodId)
+    .then((post) => {
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
 
-        if (post.isVisible) {
-            post.isVisible = false;
-        } else {
-            post.isVisible = true;
-        }
+      if (post.isVisible) {
+        post.isVisible = false;
+      } else {
+        post.isVisible = true;
+      }
 
-        return post.save();
+      return post.save();
     })
-    .then(result => {
-        res.redirect('/posts'); 
+    .then((result) => {
+      res.redirect("/posts");
     })
-    .catch(err => {
-        console.log(err);
-        res.redirect('/posts');
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/posts");
     });
-}
+};
 
 exports.postIsFeaturedPost = (req, res, next) => {
-    const prodId = req.params.postId;
+  const prodId = req.params.postId;
 
-    Post.findById(prodId)
-    .then(post => {
-        if (!post) {
-            return res.status(404).json({ message: 'Post not found' });
-        }
+  Post.findById(prodId)
+    .then((post) => {
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
 
-        if (post.isFeatured) {
-            post.isFeatured = false;
-        } else {
-            post.isFeatured = true;
-        }
+      if (post.isFeatured) {
+        post.isFeatured = false;
+      } else {
+        post.isFeatured = true;
+      }
 
-        return post.save();
+      return post.save();
     })
-    .then(result => {
-        res.redirect('/posts'); 
+    .then((result) => {
+      res.redirect("/posts");
     })
-    .catch(err => {
-        console.log(err);
-        res.redirect('/posts');
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/posts");
     });
-}
+};
 
 exports.postIsFeaturedService = (req, res, next) => {
-    const prodId = req.params.serviceId;
+  const prodId = req.params.serviceId;
 
-    Service.findById(prodId)
-    .then(service => {
-        if (!service) {
-            return res.status(404).json({ message: 'Service not found' });
-        }
+  Service.findById(prodId)
+    .then((service) => {
+      if (!service) {
+        return res.status(404).json({ message: "Service not found" });
+      }
 
-        if (service.isFeatured) {
-            service.isFeatured = false;
-        } else {
-            service.isFeatured = true;
-        }
+      if (service.isFeatured) {
+        service.isFeatured = false;
+      } else {
+        service.isFeatured = true;
+      }
 
-        return service.save();
+      return service.save();
     })
-    .then(result => {
-        res.redirect('/services'); 
+    .then((result) => {
+      res.redirect("/services");
     })
-    .catch(err => {
-        console.log(err);
-        res.redirect('/services');
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/services");
     });
-}
+};
 
 exports.postIsFeaturedProduct = (req, res, next) => {
-    const prodId = req.params.productId;
+  const prodId = req.params.productId;
 
-    Product.findById(prodId)
-    .then(product => {
-        if (!product) {
-            return res.status(404).json({ message: 'Product not found' });
-        }
+  Product.findById(prodId)
+    .then((product) => {
+      if (!product) {
+        return res.status(404).json({ message: "Product not found" });
+      }
 
-        if (product.isFeatured) {
-            product.isFeatured = false;
-        } else {
-            product.isFeatured = true;
-        }
+      if (product.isFeatured) {
+        product.isFeatured = false;
+      } else {
+        product.isFeatured = true;
+      }
 
-        return product.save();
+      return product.save();
     })
-    .then(result => {
-        res.redirect('/products'); 
+    .then((result) => {
+      res.redirect("/products");
     })
-    .catch(err => {
-        console.log(err);
-        res.redirect('/products');
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/products");
     });
-}
+};
+
+exports.postStatus = (Model, field, redirectUrl) => {
+  return (req, res, next) => {
+    const itemId = req.params.id;
+
+    Model.findById(itemId)
+      .then((item) => {
+        if (!item) {
+          return res.status(404).json({ message: "Item not found" });
+        }
+
+        item[field] = !item[field];
+
+        return item.save();
+      })
+      .then((result) => {
+        res.redirect(redirectUrl);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.redirect(redirectUrl);
+      });
+  };
+};

@@ -20,4 +20,23 @@ router.get('/edit-product/:productId', adminController.getEditProduct);
 
 router.post('/edit-product', adminController.postEditProduct);
 
+router.get('/edit-service/:serviceId', adminController.getEditService);
+
+router.post('/edit-service', adminController.postEditService);
+
+router.get('/add-post', adminController.getCreatePost);
+
+router.post('/add-post', adminController.postCreatePost);
+
+router.post('/delete-post/:postId', adminController.postDeletePost);
+
+router.get('/edit-post/:postId', adminController.getEditPost);
+
+router.post('/edit-post', adminController.postEditPost);
+
+
+router.post('/delete-comment/:postId/comments/:commentId', adminController.postDeleteCommentPost);
+
+router.post('/delete-comment/:productId/comments/:commentId', adminController.postDeleteCommentProduct);
+
 module.exports = router;

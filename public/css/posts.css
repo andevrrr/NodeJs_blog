@@ -32,3 +32,52 @@ body {
 .comment-list li {
     margin-bottom: 10px;
 }
+
+/* posts.css */
+
+/* Main styling for the form */
+.post {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+/* Style for error message */
+.user-message--error {
+    color: red;
+    margin-bottom: 10px;
+}
+
+/* Styling for form controls */
+.form-control {
+    margin-bottom: 15px;
+}
+
+.form-control label {
+    display: block;
+    font-weight: bold;
+}
+
+.form-control input,
+.form-control textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Styling for buttons */
+.btn {
+    margin-top: 10px;
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+

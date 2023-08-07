@@ -1,16 +1,40 @@
 <%- include('../includes/header.ejs') %>
+<link rel="stylesheet" href="/public/css/posts.css">
 </head>
 <body>
     <%- include('../includes/navigation.ejs') %>
     
-    <p class="pp">Hi, its the main page!</p>
-
-    <p class="pp">Slide</p>
-
-    <p class="pp">Latest news</p>
-
-    <p class="pp">Featured products</p>
-
-    <p class="pp">Popular services</p>
+    <main>
+        <div class="post">
+            <% if (errorMessage) { %>
+                <div class="user-message user-message--error"><%= errorMessage %></div>
+                <% } %>
+            <form class="post-form" action="/admin/<% if (editing) { %>edit-post<% } else { %>add-post<% } %>" method="POST">
+                <div class="form-control">
+                    <label for="title">Title</label>
+                    <input 
+                        type="text" 
+                        name="title" 
+                        id="title" 
+                        value="<% if (editing || hasError) { %><%= post.title %><% } %>">
+                </div>
+                <div class="form-control">
+                    <label for="content">Content</label>
+                    <textarea 
+                        name="content" 
+                        id="content" 
+                        rows="5"
+                        class="color:black">
+                        <% if (editing || hasError) { %><%= post.content %><% } %>
+                    </textarea>
+                </div>
+                <% if (editing) { %>
+                    <input type="hidden" value="<%= post._id %>" name="postId">
+                <% } %>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button class="btn" type="submit"><% if (editing) { %>Update Post<% } else { %>Add Post<% } %></button>
+            </form>
+        </div>
+    </main>
 </body>
 </html>

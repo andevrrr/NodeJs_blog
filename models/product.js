@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
+const { commentSchema } = require('./comment');
+
 const productSchema = new Schema({
     title: {
         type: String,
@@ -22,7 +24,8 @@ const productSchema = new Schema({
     inStock: {
         type: Boolean,
         required: true
-    }
+    },
+    comments: [commentSchema] 
 });
 
 module.exports = mongoose.model('Product', productSchema);

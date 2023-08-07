@@ -1,0 +1,62 @@
+<%- include('../includes/header.ejs') %>
+<link rel="stylesheet" href="/public/css/details.css">
+</head>
+<body>
+    <%- include('../includes/navigation.ejs') %>
+    
+    <main>
+        <h1>Details</h1>
+        <article class="product_item">
+            <header class="product_item_header">
+                <h1><%= product.title %></h1>
+            </header>
+            <div class="product_item_image">
+                <img src="/<%= product.image %>" alt="">
+            </div>
+            <div class="product_item_info">
+                <h2><%= product.price %>$</h2>
+                <p><%= product.description %></p>
+                <% if (product.inStock) { %>
+                    <p>In stock</p>
+                <% } else { %>
+                    <p>Out of stock</p>
+                <% } %>
+            </div>
+            <div class="product_item_actions">
+                <div>
+                    <a href="/products" class="btn">Go back</a>
+                </div>
+            </div>
+            <div class="comments">
+                <h3>Comments</h3>
+                <ul class="comment-list">
+                    <% for (let comment of product.comments) { %>
+                        <li><%= comment.text %></li>
+                        <li>
+                            <form action="/admin/delete-comment/<%= product._id %>/comments/<%= comment._id %>" method="POST">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <button type="submit" class="btn">Delete</button>
+                            </form>
+                        </li>
+                    <% } %>
+                </ul>
+                <form class="comment-form" action="/products/<%= product._id %>" method="POST">
+                    <input type="text" id="comment" name="comment" placeholder="Leave a comment">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button type="submit">Submit Comment</button>
+                </form>
+            </div>
+            <% if (isAuthenticated) { %>
+                <div class="product_item_actions">
+                    <a href="/admin/edit-product/<%= product._id %>?edit=true" class="btn">Edit</a>
+                    <form action="/admin/delete-product/<%= product._id %>" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button type="submit" class="btn">Delete</button>
+                    </form>
+                </div>
+            <% } %>
+        </article>
+    </main>
+
+</body>
+</html>

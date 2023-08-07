@@ -14,4 +14,10 @@ router.get('/products', blogController.getProducts);
 
 router.get('/posts', blogController.getPosts);
 
+router.post('/posts/:postId', blogController.postAddCommentPost);
+
+router.post('/products/:productId', blogController.postAddCommentProduct);
+
+router.get('/details/:productId', blogController.getProductsDetails);
+
 module.exports = router;

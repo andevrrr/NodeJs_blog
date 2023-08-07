@@ -5,34 +5,37 @@
     <%- include('../includes/navigation.ejs') %>
     
     <main class="services">
-        <form action="/admin/add-service" method="POST">
+        <form action="/admin/<% if (editing) { %>edit-service<% } else { %>add-service<% } %>" method="POST">
             <ul class="list_outer">
                 <li>
                     <ul class="list_inner">
                         <li>
                             <div>
                                 <label for="name">Name</label>
-                                <input type="text" name="name" id="name">
+                                <input type="text" name="name" id="name" value="<% if (editing || hasError) { %><%= service.name %><% } %>">>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <label for="time">Time</label>
-                                <input type="text" name="time" id="time">
+                                <input type="text" name="time" id="time" value="<% if (editing || hasError) { %><%= service.time %><% } %>">>
                             </div>
                         </li>
                         <li>
                             <div>
                                 <label for="price">Price</label>
-                                <input type="text" name="price" id="price">
+                                <input type="text" name="price" id="price" value="<% if (editing || hasError) { %><%= service.price %><% } %>">>
                             </div>
                         </li>
                     </ul>
                 </li>
             </ul>
             <div>
+                <% if (editing) { %>
+                    <input type="hidden" value="<%= service._id %>" name="serviceId">
+                <% } %>
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <button class="btn" type="submit">Add</button>
+                <button class="btn" type="submit"><% if (editing) { %>Update Service<% } else { %>Add Service<% } %></button>
             </div>
         </form>
     </main>

@@ -44,4 +44,10 @@ router.post('/services/status/:serviceId', adminController.postIsVisibleService)
 
 router.post('/posts/status/:postId', adminController.postIsVisiblePost);
 
+router.post('/posts/featured/:postId', adminController.postIsFeaturedPost);
+
+router.post('/products/featured/:productId', adminController.postIsFeaturedProduct);
+
+router.post('/services/featured/:serviceId', adminController.postIsFeaturedService);
+
 module.exports = router;

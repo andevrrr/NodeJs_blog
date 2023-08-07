@@ -45,6 +45,10 @@
                                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                         <button type="submit" class="btn"><%= product.isVisible ? 'Visible' : 'Invisible' %></button>
                                     </form>
+                                    <form action="/admin/products/featured/<%= product._id %>" method="POST">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        <button type="submit" class="btn"><%= product.isFeatured ? 'Featured' : 'Not Featured' %></button>
+                                    </form>
                                 </div>
                             <% } %>
                         </article>

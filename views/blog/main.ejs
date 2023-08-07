@@ -10,7 +10,7 @@
             <div class="posts">
                 <% if (posts.length > 0) { %>
                     <% for (let post of posts) { %>
-                        <% if (post.isVisible) {%>
+                        <% if (post.isVisible && post.isFeatured) {%>
                             <div>
                                 <h3><%= post.title %></h3>
                                 <p><%= post.content.substring(0, 100) + (post.content.length > 100 ? '...' : '') %></p>
@@ -24,7 +24,7 @@
             <div class="services">
                 <% if (services.length > 0) { %>
                     <% for (let service of services) { %>
-                        <% if (service.isVisible) {%>
+                        <% if (service.isVisible && service.isFeatured) {%>
                             <div>
                                 <h3><%= service.name %></h3>
                                 <p><%= service.price %>$</p>
@@ -38,7 +38,7 @@
             <div class="products">
                 <% if (products.length > 0) { %>
                         <% for (let product of products) { %>
-                            <% if (product.isVisible) {%>
+                            <% if (product.isVisible && product.isFeatured) {%>
                                 <div class="pro">
                                     <h3><%= product.title %></h3>
                                     <img src="/<%= product.image %>" alt="">

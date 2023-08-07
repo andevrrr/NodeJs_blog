@@ -46,6 +46,10 @@
                                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                     <button type="submit" class="btn"><%= post.isVisible ? 'Visible' : 'Invisible' %></button>
                                 </form>
+                                <form action="/admin/posts/featured/<%= post._id %>" method="POST">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <button type="submit" class="btn"><%= post.isFeatured ? 'Featured' : 'Not Featured' %></button>
+                                </form>
                             </div>
                         <% } %>
                     </div>

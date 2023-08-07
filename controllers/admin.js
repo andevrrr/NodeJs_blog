@@ -548,3 +548,81 @@ exports.postIsVisiblePost = (req, res, next) => {
         res.redirect('/posts');
     });
 }
+
+exports.postIsFeaturedPost = (req, res, next) => {
+    const prodId = req.params.postId;
+
+    Post.findById(prodId)
+    .then(post => {
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
+
+        if (post.isFeatured) {
+            post.isFeatured = false;
+        } else {
+            post.isFeatured = true;
+        }
+
+        return post.save();
+    })
+    .then(result => {
+        res.redirect('/posts'); 
+    })
+    .catch(err => {
+        console.log(err);
+        res.redirect('/posts');
+    });
+}
+
+exports.postIsFeaturedService = (req, res, next) => {
+    const prodId = req.params.serviceId;
+
+    Service.findById(prodId)
+    .then(service => {
+        if (!service) {
+            return res.status(404).json({ message: 'Service not found' });
+        }
+
+        if (service.isFeatured) {
+            service.isFeatured = false;
+        } else {
+            service.isFeatured = true;
+        }
+
+        return service.save();
+    })
+    .then(result => {
+        res.redirect('/services'); 
+    })
+    .catch(err => {
+        console.log(err);
+        res.redirect('/services');
+    });
+}
+
+exports.postIsFeaturedProduct = (req, res, next) => {
+    const prodId = req.params.productId;
+
+    Product.findById(prodId)
+    .then(product => {
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+
+        if (product.isFeatured) {
+            product.isFeatured = false;
+        } else {
+            product.isFeatured = true;
+        }
+
+        return product.save();
+    })
+    .then(result => {
+        res.redirect('/products'); 
+    })
+    .catch(err => {
+        console.log(err);
+        res.redirect('/products');
+    });
+}

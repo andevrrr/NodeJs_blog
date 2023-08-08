@@ -15,7 +15,8 @@
                 <% if ((post.isVisible && !isAuthenticated) || isAuthenticated) { %>
                     <div class="post">
                         <h2><%= post.title %></h2>
-                        <p><%= post.content %></p>
+                        <p><%= post.content.substring(0, 300) + (post.content.length > 300 ? '...' : '') %></p>
+                        <a href="/posts/<%= post._id %>">Read more</a>
                         <div class="comments">
                             <h3>Comments</h3>
                             <ul class="comment-list">
@@ -29,11 +30,6 @@
                                     </li>
                                 <% } %>
                             </ul>
-                            <form class="comment-form" action="/posts/<%= post._id %>" method="POST">
-                                <input type="text" id="comment" name="comment" placeholder="Leave a comment">
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                <button type="submit">Submit Comment</button>
-                            </form>
                         </div>
                         <% if (isAuthenticated) { %>
                             <div class=postt_item_actions">

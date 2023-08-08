@@ -20,4 +20,6 @@ router.post('/products/:productId', blogController.postAddCommentProduct);
 
 router.get('/details/:productId', blogController.getProductsDetails);
 
+router.get('/posts/:postId', blogController.getPost);
+
 module.exports = router;

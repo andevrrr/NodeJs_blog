@@ -425,9 +425,9 @@ exports.postDeleteComment = (Model, redirectUrl) => {
         if (!item) {
           return res.status(404).json({ message: "Not found" });
         }
-        if (redirectUrl === '/details/') {
-            redirectUrl += `${itemId}`;
-          }
+
+        redirectUrl += `/${itemId}`;
+        
         // Find the comment by its id and remove it from the comments array
         const commentIndex = item.comments.findIndex(
           (comment) => comment.id === commentId

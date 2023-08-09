@@ -10,8 +10,11 @@ const csrf = require('csurf');
 const errorController = require('./controllers/error');
 const User = require('./models/user');
 const multer = require('multer');
+const cors = require('cors');
 
 const app = express();
+
+app.use(cors())
 
 const port = process.env.PORT;
 const MONGO_DB_URI = process.env.MONGO_DB_URL;
@@ -94,9 +97,9 @@ app.use((req, res, next) => {
 })
 
 // routes
+app.use(authRouter);
 app.use(blogRouter);
 app.use('/admin', adminRouter);
-app.use(authRouter);
 
 app.get('/500', errorController.get500);
 

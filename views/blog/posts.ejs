@@ -24,7 +24,7 @@
                                     <li><%= comment.text %></li>
                                     <li>
                                         <form action="/admin/delete-comment/post/<%= post._id %>/comments/<%= comment._id %>" method="POST">
-                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
                                             <button type="submit" class="btn">Delete</button>
                                         </form>
                                     </li>
@@ -35,15 +35,15 @@
                             <div class=postt_item_actions">
                                 <a href="/admin/edit-post/<%= post._id %>?edit=true" class="btn">Edit</a>
                                 <form action="/admin/delete-post/<%= post._id %>" method="POST">
-                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
                                     <button type="submit" class="btn">Delete</button>
                                 </form>
                                 <form action="/admin/posts/status/<%= post._id %>" method="POST">
-                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
                                     <button type="submit" class="btn"><%= post.isVisible ? 'Visible' : 'Invisible' %></button>
                                 </form>
                                 <form action="/admin/posts/featured/<%= post._id %>" method="POST">
-                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
                                     <button type="submit" class="btn"><%= post.isFeatured ? 'Featured' : 'Not Featured' %></button>
                                 </form>
                             </div>

@@ -32,15 +32,15 @@
                             <div class="service_item_actions">
                                 <a href="/admin/edit-service/<%= service._id %>?edit=true" class="btn">Edit</a>
                                 <form action="/admin/delete-service/<%= service._id %>" method="POST">
-                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
                                     <button type="submit" class="btn">Delete</button>
                                 </form>
                                 <form action="/admin/services/status/<%= service._id %>" method="POST">
-                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
                                     <button type="submit" class="btn"><%= service.isVisible ? 'Visible' : 'Invisible' %></button>
                                 </form>
                                 <form action="/admin/services/featured/<%= service._id %>" method="POST">
-                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                    <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
                                     <button type="submit" class="btn"><%= service.isFeatured ? 'Featured' : 'Not Featured' %></button>
                                 </form>
                             </div>

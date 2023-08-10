@@ -11,12 +11,11 @@ const errorController = require('./controllers/error');
 const User = require('./models/user');
 const multer = require('multer');
 const cors = require('cors');
-
-
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
-app.use(cors());
+// const csrfProtection = csrf({ cookie: true });
 
 const port = process.env.PORT;
 const MONGO_DB_URI = process.env.MONGO_DB_URL;
@@ -30,15 +29,11 @@ const fileStorage = multer.diskStorage({
     }
 });
 
-const store = new MongoDBStore({
-    uri: MONGO_DB_URI,
-    collection: 'sessions'
-});
-
 // routes
 const adminRouter = require("./routes/admin");
 const authRouter = require("./routes/auth");
 const blogRouter = require("./routes/blog");
+const { rmSync } = require("fs");
 
 // ejs
 app.set("view engine", "ejs");
@@ -52,15 +47,22 @@ const fileFilter = (req, file, cb) => {
     }
 };
 
-// Parse incoming requests with JSON payloads
+
+app.use(cors({
+    origin: 'http://localhost:3001', // Adjust to your client's origin
+    credentials: true
+  }));
+  
 app.use(bodyParser.json());
-// Parse incoming requests with URL-encoded payloads
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/public", express.static(path.join(__dirname, "public")));
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'))
 app.use('/images', express.static(path.join(__dirname, 'images')));
-
-const csrfProtection = csrf();
+app.use(cookieParser()); 
+const store = new MongoDBStore({
+    uri: MONGO_DB_URI,
+    collection: 'sessions'
+});
 
 app.use(
     session(
@@ -73,12 +75,13 @@ app.use(
         }
     )
 );
-app.use(csrfProtection);
+
+// app.use(csrfProtection);
 app.use((flash()));
 
 app.use((req, res, next) => {
     res.locals.isAuthenticated = req.session.isLoggedIn;
-    res.locals.csrfToken = req.csrfToken();
+    res.locals.csrfToken = "hi";
     next();
 })
 
@@ -99,9 +102,14 @@ app.use((req, res, next) => {
         });
 })
 
+// app.get('/get-csrf-token', (req, res, next) => {
+//     res.json({ csrfToken: req.csrfToken() });
+//     next();
+//   });
+
 // routes
 app.use(authRouter);
-app.use(blogRouter);
+app.use(blogRouter,);
 app.use('/admin', adminRouter);
 
 app.get('/500', errorController.get500);

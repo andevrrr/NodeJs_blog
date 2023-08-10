@@ -34,7 +34,7 @@
                 <% if (editing) { %>
                     <input type="hidden" value="<%= service._id %>" name="serviceId">
                 <% } %>
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
                 <button class="btn" type="submit"><% if (editing) { %>Update Service<% } else { %>Add Service<% } %></button>
             </div>
         </form>

@@ -34,7 +34,7 @@ router.get('/add-post', isAuth, adminController.getCreatePost);
 
 router.post('/add-post', isAuth, adminController.postCreatePost);
 
-router.post('/delete-post/:postId', isAuth, adminController.postDeletePost);
+router.post('/delete-post/:postId', adminController.postDeletePost);
 
 router.get('/edit-post/:postId', isAuth, adminController.getEditPost);
 

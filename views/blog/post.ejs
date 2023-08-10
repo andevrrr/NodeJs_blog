@@ -16,7 +16,7 @@
                     <li><%= comment.text %></li>
                     <li>
                         <form action="/admin/delete-comment/post/<%= post._id %>/comments/<%= comment._id %>" method="POST">
-                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
                             <button type="submit" class="btn">Delete</button>
                         </form>
                     </li>
@@ -24,7 +24,7 @@
             </ul>
             <form class="comment-form" action="/posts/<%= post._id %>" method="POST">
                 <input type="text" id="comment" name="comment" placeholder="Leave a comment">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <!-- <input type="hidden" name="_csrf" value="<%= csrfToken %>"> -->
                 <button type="submit">Submit Comment</button>
             </form>
         </div>

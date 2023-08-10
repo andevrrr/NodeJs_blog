@@ -12,9 +12,11 @@ const User = require('./models/user');
 const multer = require('multer');
 const cors = require('cors');
 
+
+
 const app = express();
 
-app.use(cors())
+app.use(cors());
 
 const port = process.env.PORT;
 const MONGO_DB_URI = process.env.MONGO_DB_URL;
@@ -66,7 +68,8 @@ app.use(
             secret: 'my secret',
             resave: false,
             saveUninitialized: false,
-            store: store
+            store: store,
+            cookie: { httpOnly: true }
         }
     )
 );
@@ -111,7 +114,6 @@ app.use((error, req, res, next) => {
         isAuthenticated: req.session.isLoggedIn
     })
 })
-
 
 mongoose
   .connect(MONGO_DB_URI)

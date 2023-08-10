@@ -25,10 +25,15 @@ exports.getMain = (req, res, next) => {
 exports.getServices = (req, res, next) => {
   Service.find()
     .then((services) => {
-      res.render("blog/services", {
-        pageTitle: "Our services",
-        path: "/services",
-        services: services,
+      // res.render("blog/services", {
+      //   pageTitle: "Our services",
+      //   path: "/services",
+      //   services: services,
+      // });
+
+      res.status(200).json({
+        message: "Fetched services successfully",
+        services: services 
       });
     })
     .catch((err) => {
@@ -39,10 +44,14 @@ exports.getServices = (req, res, next) => {
 exports.getProducts = (req, res, next) => {
   Product.find()
     .then((products) => {
-      res.render("blog/products", {
-        pageTitle: "Our products",
-        path: "/products",
-        products: products,
+      // res.render("blog/products", {
+      //   pageTitle: "Our products",
+      //   path: "/products",
+      //   products: products,
+      // });
+      res.status(200).json({
+        message: "Fetched products successfully",
+        products: products
       });
     })
     .catch((err) => {
@@ -68,10 +77,14 @@ exports.getProductsDetails = (req, res, next) => {
 exports.getPosts = (req, res, next) => {
   Post.find()
     .then((posts) => {
-      res.render("blog/posts", {
-        pageTitle: "Posts",
-        path: "/posts",
-        posts: posts,
+      // res.render("blog/posts", {
+      //   pageTitle: "Posts",
+      //   path: "/posts",
+      //   posts: posts,
+      // });
+      res.status(200).json({
+        message: 'Fethced posts successfully',
+        posts: posts
       });
     })
     .catch((err) => {

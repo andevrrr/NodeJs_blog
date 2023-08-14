@@ -55,8 +55,11 @@ exports.postCreateService = (req, res, next) => {
 
   return service
     .save()
-    .then((result) => {
-      res.redirect("/services");
+    .then((createdService) => {
+      res.status(201).json({
+        message: "Service created successfully",
+        service: createdService,
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -65,29 +68,29 @@ exports.postCreateService = (req, res, next) => {
 
 exports.postCreateProduct = (req, res, next) => {
   const title = req.body.title;
-  const image = req.file;
+  //const image = req.file;
   const price = req.body.price;
   const description = req.body.description;
   const inStock = req.body.inStock === "true";
 
-  if (!image) {
-    return res.status(422).render("admin/product.ejs", {
-      pageTitle: "Add Product",
-      path: "/admin/add-product",
-      hasError: true,
-      editing: false,
-      product: {
-        title: title,
-        price: price,
-        description: description,
-        inStock: inStock,
-      },
-      errorMessage: "Attached file is not an image",
-    });
-  }
+  // if (!image) {
+  //   return res.status(422).render("admin/product.ejs", {
+  //     pageTitle: "Add Product",
+  //     path: "/admin/add-product",
+  //     hasError: true,
+  //     editing: false,
+  //     product: {
+  //       title: title,
+  //       price: price,
+  //       description: description,
+  //       inStock: inStock,
+  //     },
+  //     errorMessage: "Attached file is not an image",
+  //   });
+  // }
 
   const errors = validationResult(req);
-  const imageUrl = image.path;
+  //const imageUrl = image.path;
 
   if (!errors.isEmpty()) {
     return res.status(422).render("admin/product.ejs", {
@@ -97,7 +100,7 @@ exports.postCreateProduct = (req, res, next) => {
       editing: false,
       product: {
         title: title,
-        image: imageUrl,
+        //image: imageUrl,
         price: price,
         description: description,
         inStock: inStock,
@@ -109,16 +112,18 @@ exports.postCreateProduct = (req, res, next) => {
   const product = new Product({
     title: title,
     price: price,
-    image: imageUrl,
+    // image: imageUrl,
     description: description,
     inStock: inStock,
   });
 
   product
     .save()
-    .then((result) => {
-      console.log("Created Product");
-      res.redirect("/products");
+    .then((createdProduct) => {
+      res.status(201).json({
+        message: "Product created successfully.",
+        product: createdProduct,
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -133,8 +138,9 @@ exports.postDeleteProduct = (req, res, next) => {
       fileHelper.deleteFile(product.image);
     })
     .then((result) => {
-      console.log("Product deleted");
-      res.redirect("/products");
+      res.status(200).json({
+        message: "Product deleted successfully.",
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -145,9 +151,10 @@ exports.postDeleteService = (req, res, next) => {
   const serviceId = req.params.serviceId;
 
   Service.findByIdAndRemove(serviceId)
-    .then((result) => {
-      console.log("Service deleted");
-      res.redirect("/services");
+    .then(() => {
+      res.status(200).json({
+        message: "Service deleted successfully.",
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -182,7 +189,7 @@ exports.getEditProduct = (req, res, next) => {
 };
 
 exports.postEditProduct = (req, res, next) => {
-  const productId = req.body.productId;
+  const productId = req.params.productId;
   const title = req.body.title;
   const image = req.file;
   const price = req.body.price;
@@ -220,9 +227,12 @@ exports.postEditProduct = (req, res, next) => {
         product.image = image.path;
       }
 
-      return product.save().then((result) => {
-        console.log("Product updated!");
-        res.redirect("/products");
+      return product.save();
+    })
+    .then((updatedProduct) => {
+      res.status(201).json({
+        message: "Product updated successfully.",
+        product: updatedProduct,
       });
     })
     .catch((err) => {
@@ -258,7 +268,7 @@ exports.getEditService = (req, res, next) => {
 };
 
 exports.postEditService = (req, res, next) => {
-  const serviceId = req.body.serviceId;
+  const serviceId = req.params.serviceId;
   const name = req.body.name;
   const time = req.body.time;
   const price = req.body.price;
@@ -285,9 +295,12 @@ exports.postEditService = (req, res, next) => {
       service.time = time;
       service.price = price;
 
-      return service.save().then((result) => {
-        console.log("Service updated!");
-        res.redirect("/services");
+      return service.save();
+    })
+    .then((updatedService) => {
+      res.status(201).json({
+        message: "Service updated successfully.",
+        service: updatedService,
       });
     })
     .catch((err) => {
@@ -332,8 +345,11 @@ exports.postCreatePost = (req, res, next) => {
 
   return post
     .save()
-    .then((result) => {
-      res.redirect("/posts");
+    .then((createdPost) => {
+      res.status(201).json({
+        message: "Post created successfully!",
+        post: createdPost,
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -344,9 +360,10 @@ exports.postDeletePost = (req, res, next) => {
   const postId = req.params.postId;
 
   Post.findByIdAndRemove(postId)
-    .then((result) => {
-      console.log("Product deleted");
-      res.redirect("/posts");
+    .then(() => {
+      res.status(200).json({
+        message: "Post deleted succeddfully.",
+      });
     })
     .catch((err) => {
       console.log(err);

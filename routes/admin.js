@@ -24,11 +24,11 @@ router.post('/delete-service/:serviceId',  adminController.postDeleteService);
 
 router.get('/edit-product/:productId',  adminController.getEditProduct);
 
-router.post('/edit-product',  adminController.postEditProduct);
+router.post('/edit-product/:productId',  adminController.postEditProduct);
 
 router.get('/edit-service/:serviceId',  adminController.getEditService);
 
-router.post('/edit-service',  adminController.postEditService);
+router.post('/edit-service/:serviceId',  adminController.postEditService);
 
 router.get('/add-post',  adminController.getCreatePost);
 

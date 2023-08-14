@@ -149,11 +149,15 @@ exports.getPost = (req, res, next) => {
 
   Post.findById(postId)
     .then((post) => {
-      res.render("blog/post", {
-        pageTitle: "Post",
-        path: "/post",
-        post: post,
-      });
+      res.status(200).json({
+        message: 'Fatched the post successfully',
+        post: post
+      })
+      // res.render("blog/post", {
+      //   pageTitle: "Post",
+      //   path: "/post",
+      //   post: post,
+      // });
     })
     .catch((err) => {
       console.log(err);

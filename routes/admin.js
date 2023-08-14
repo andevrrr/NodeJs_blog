@@ -10,50 +10,50 @@ const isAuth = require('../middleware/is-auth');
 
 const adminController = require('../controllers/admin');
 
-router.get('/add-service', isAuth, adminController.getCreateService);
+router.get('/add-service',  adminController.getCreateService);
 
-router.post('/add-service', isAuth, adminController.postCreateService);
+router.post('/add-service',  adminController.postCreateService);
 
-router.get('/add-product', isAuth, adminController.getCreateProduct);
+router.get('/add-product',  adminController.getCreateProduct);
 
-router.post('/add-product', isAuth, adminController.postCreateProduct);
+router.post('/add-product',  adminController.postCreateProduct);
 
-router.post('/delete-product/:productId', isAuth, adminController.postDeleteProduct);
+router.post('/delete-product/:productId',  adminController.postDeleteProduct);
 
-router.post('/delete-service/:serviceId', isAuth, adminController.postDeleteService);
+router.post('/delete-service/:serviceId',  adminController.postDeleteService);
 
-router.get('/edit-product/:productId', isAuth, adminController.getEditProduct);
+router.get('/edit-product/:productId',  adminController.getEditProduct);
 
-router.post('/edit-product', isAuth, adminController.postEditProduct);
+router.post('/edit-product',  adminController.postEditProduct);
 
-router.get('/edit-service/:serviceId', isAuth, adminController.getEditService);
+router.get('/edit-service/:serviceId',  adminController.getEditService);
 
-router.post('/edit-service', isAuth, adminController.postEditService);
+router.post('/edit-service',  adminController.postEditService);
 
-router.get('/add-post', isAuth, adminController.getCreatePost);
+router.get('/add-post',  adminController.getCreatePost);
 
-router.post('/add-post', isAuth, adminController.postCreatePost);
+router.post('/add-post',  adminController.postCreatePost);
 
 router.post('/delete-post/:postId', adminController.postDeletePost);
 
-router.get('/edit-post/:postId', isAuth, adminController.getEditPost);
+router.get('/edit-post/:postId',  adminController.getEditPost);
 
-router.post('/edit-post', isAuth, adminController.postEditPost);
+router.post('/edit-post/:postId', adminController.postEditPost);
 
-router.post('/delete-comment/post/:id/comments/:commentId', isAuth, adminController.postDeleteComment(Post, '/posts'));
+router.post('/delete-comment/post/:id/comments/:commentId',  adminController.postDeleteComment(Post, '/posts'));
 
-router.post('/delete-comment/product/:id/comments/:commentId', isAuth, adminController.postDeleteComment(Product, '/details'));
+router.post('/delete-comment/product/:id/comments/:commentId',  adminController.postDeleteComment(Product, '/details'));
 
-router.post('/products/status/:id', isAuth, adminController.postStatus(Product, 'isVisible', '/products'));
+router.post('/products/status/:id',  adminController.postStatus(Product, 'isVisible', '/products'));
 
-router.post('/services/status/:id', isAuth, adminController.postStatus(Service, 'isVisible', '/services'));
+router.post('/services/status/:id',  adminController.postStatus(Service, 'isVisible', '/services'));
 
-router.post('/posts/status/:id', isAuth, adminController.postStatus(Post, 'isVisible', '/posts'));
+router.post('/posts/status/:id',  adminController.postStatus(Post, 'isVisible', '/posts'));
 
-router.post('/posts/featured/:id', isAuth, adminController.postStatus(Post, 'isFeatured', '/posts'));
+router.post('/posts/featured/:id',  adminController.postStatus(Post, 'isFeatured', '/posts'));
 
-router.post('/products/featured/:id', isAuth, adminController.postStatus(Product, 'isFeatured', '/products'));
+router.post('/products/featured/:id',  adminController.postStatus(Product, 'isFeatured', '/products'));
 
-router.post('/services/featured/:id', isAuth, adminController.postStatus(Service, 'isFeatured', '/services'));
+router.post('/services/featured/:id',  adminController.postStatus(Service, 'isFeatured', '/services'));
 
 module.exports = router;

@@ -381,7 +381,7 @@ exports.getEditPost = (req, res, next) => {
 };
 
 exports.postEditPost = (req, res, next) => {
-  const postId = req.body.postId;
+  const postId = req.params.postId;
   const title = req.body.title;
   const content = req.body.content;
   const errors = validationResult(req);
@@ -402,16 +402,26 @@ exports.postEditPost = (req, res, next) => {
 
   Post.findById(postId)
     .then((post) => {
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+
       post.title = title;
       post.content = content;
 
-      return post.save().then((result) => {
-        console.log("Post updated!");
-        res.redirect("/posts");
+      return post.save();
+    })
+    .then((updatedPost) => {
+      return res.status(200).json({
+        message: "Post updated",
+        post: updatedPost,
       });
     })
     .catch((err) => {
       console.log(err);
+      res
+        .status(500)
+        .json({ message: "An error occurred while updating the post" });
     });
 };
 
@@ -427,7 +437,7 @@ exports.postDeleteComment = (Model, redirectUrl) => {
         }
 
         redirectUrl += `/${itemId}`;
-        
+
         // Find the comment by its id and remove it from the comments array
         const commentIndex = item.comments.findIndex(
           (comment) => comment.id === commentId

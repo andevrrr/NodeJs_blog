@@ -2,6 +2,7 @@ const Service = require("../models/service");
 const Product = require("../models/product");
 const Post = require("../models/post");
 const fileHelper = require("../utils/file");
+const path = require('path');
 
 const { validationResult } = require("express-validator");
 
@@ -67,12 +68,6 @@ exports.postCreateService = (req, res, next) => {
 };
 
 exports.postCreateProduct = (req, res, next) => {
-  const title = req.body.title;
-  //const image = req.file;
-  const price = req.body.price;
-  const description = req.body.description;
-  const inStock = req.body.inStock === "true";
-
   // if (!image) {
   //   return res.status(422).render("admin/product.ejs", {
   //     pageTitle: "Add Product",
@@ -90,29 +85,45 @@ exports.postCreateProduct = (req, res, next) => {
   // }
 
   const errors = validationResult(req);
-  //const imageUrl = image.path;
 
   if (!errors.isEmpty()) {
-    return res.status(422).render("admin/product.ejs", {
-      pageTitle: "Add Product",
-      path: "/admin/add-product",
-      hasError: true,
-      editing: false,
-      product: {
-        title: title,
-        //image: imageUrl,
-        price: price,
-        description: description,
-        inStock: inStock,
-      },
-      errorMessage: errors.array()[0].msg,
-    });
+    const error = new Error('Validation failed, entered data is incorrect.');
+    error.statusCode = 422;
+    throw error;
   }
+  if (!req.file) {
+    const error = new Error('No image provided.');
+    error.statusCode = 422;
+    throw error;
+  }
+
+  const title = req.body.title;
+  const imageUrl = req.file.path;
+  const price = req.body.price;
+  const description = req.body.description;
+  const inStock = req.body.inStock === "true";
+
+  // if (!errors.isEmpty()) {
+  //   return res.status(422).render("admin/product.ejs", {
+  //     pageTitle: "Add Product",
+  //     path: "/admin/add-product",
+  //     hasError: true,
+  //     editing: false,
+  //     product: {
+  //       title: title,
+  //       image: imageUrl,
+  //       price: price,
+  //       description: description,
+  //       inStock: inStock,
+  //     },
+  //     errorMessage: errors.array()[0].msg,
+  //   });
+  // }
 
   const product = new Product({
     title: title,
     price: price,
-    // image: imageUrl,
+    image: imageUrl,
     description: description,
     inStock: inStock,
   });

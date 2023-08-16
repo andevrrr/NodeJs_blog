@@ -44,16 +44,16 @@ router.post('/delete-comment/post/:id/comments/:commentId',  adminController.pos
 
 router.post('/delete-comment/product/:id/comments/:commentId',  adminController.postDeleteComment(Product, '/details'));
 
-router.post('/products/status/:id',  adminController.postStatus(Product, 'isVisible', '/products'));
+router.post('/products/:id/status/isVisible',  adminController.postStatus(Product, 'isVisible'));
 
-router.post('/services/status/:id',  adminController.postStatus(Service, 'isVisible', '/services'));
+router.post('/services/:id/status/isVisible',  adminController.postStatus(Service, 'isVisible'));
 
-router.post('/posts/status/:id',  adminController.postStatus(Post, 'isVisible', '/posts'));
+router.post('/posts/:id/status/isVisible',  adminController.postStatus(Post, 'isVisible'));
 
-router.post('/posts/featured/:id',  adminController.postStatus(Post, 'isFeatured', '/posts'));
+router.post('/posts/:id/status/isFeatured',  adminController.postStatus(Post, 'isFeatured'));
 
-router.post('/products/featured/:id',  adminController.postStatus(Product, 'isFeatured', '/products'));
+router.post('/products/:id/status/isFeatured',  adminController.postStatus(Product, 'isFeatured'));
 
-router.post('/services/featured/:id',  adminController.postStatus(Service, 'isFeatured', '/services'));
+router.post('/services/:id/status/isFeatured',  adminController.postStatus(Service, 'isFeatured'));
 
 module.exports = router;

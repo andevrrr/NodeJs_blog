@@ -14,11 +14,11 @@ router.get('/products', blogController.getProducts);
 
 router.get('/posts', blogController.getPosts);
 
-router.post('/posts/:postId', blogController.postAddCommentPost);
+router.post('/posts/:postId/comments', blogController.postAddCommentPost);
 
-router.post('/products/:productId', blogController.postAddCommentProduct);
+router.post('/products/:productId/comments', blogController.postAddCommentProduct);
 
-router.get('/details/:productId', blogController.getProductsDetails);
+router.get('/products/:productId', blogController.getProduct);
 
 router.get('/posts/:postId', blogController.getPost);
 

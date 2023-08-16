@@ -96,6 +96,8 @@ exports.postCreateProduct = (req, res, next) => {
     error.statusCode = 422;
     throw error;
   }
+  console.log(req.file.path);
+  console.log(req.body.title);
 
   const title = req.body.title;
   const imageUrl = req.file.path;
@@ -487,7 +489,7 @@ exports.postDeleteComment = (Model, redirectUrl) => {
   };
 };
 
-exports.postStatus = (Model, field, redirectUrl) => {
+exports.postStatus = (Model, field) => {
   return (req, res, next) => {
     const itemId = req.params.id;
 
@@ -502,11 +504,10 @@ exports.postStatus = (Model, field, redirectUrl) => {
         return item.save();
       })
       .then((result) => {
-        res.redirect(redirectUrl);
+        console.log(result)
       })
       .catch((err) => {
         console.log(err);
-        res.redirect(redirectUrl);
       });
   };
 };

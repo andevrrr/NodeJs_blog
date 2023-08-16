@@ -59,21 +59,6 @@ exports.getProducts = (req, res, next) => {
     });
 };
 
-exports.getProductsDetails = (req, res, next) => {
-  const prodId = req.params.productId;
-  Product.findById(prodId)
-    .then((product) => {
-      res.render("blog/details", {
-        pageTitle: "Details",
-        path: "/detaild",
-        product: product,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-
 exports.getPosts = (req, res, next) => {
   Post.find()
     .then((posts) => {
@@ -135,12 +120,8 @@ exports.postAddCommentProduct = (req, res, next) => {
       product.comments.push(newComment);
       return product.save();
     })
-    .then((result) => {
-      res.redirect(`/details/${productId}`);
-    })
     .catch((err) => {
       console.log(err);
-      res.redirect("/products");
     });
 };
 
@@ -151,12 +132,34 @@ exports.getPost = (req, res, next) => {
     .then((post) => {
       res.status(200).json({
         message: 'Fatched the post successfully',
-        post: post
+        post: post,
+        comments: post.comments
       })
       // res.render("blog/post", {
       //   pageTitle: "Post",
       //   path: "/post",
       //   post: post,
+      // });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+
+exports.getProduct = (req, res, next) => {
+  const prodId = req.params.productId;
+  Product.findById(prodId)
+    .then((product) => {
+      res.status(200).json({
+        message: "Product fetched successfully",
+        product: product,
+        comments: product.comments
+      })
+      // res.render("blog/details", {
+      //   pageTitle: "Details",
+      //   path: "/detaild",
+      //   product: product,
       // });
     })
     .catch((err) => {

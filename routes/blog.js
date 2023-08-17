@@ -8,7 +8,7 @@ const isAuth = require("../middleware/is-auth");
 
 router.get("/", blogController.getMain);
 
-router.get("/services", isAuth, blogController.getServices);
+router.get("/services", blogController.getServices);
 
 router.get("/products", isAuth, blogController.getProducts);
 

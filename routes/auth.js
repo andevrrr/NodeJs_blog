@@ -12,6 +12,8 @@ router.post("/login", authController.postLogin);
 
 router.get("/signup", authController.getSignUp);
 
+const isAuth = require("../middleware/is-auth");
+
 router.post(
   "/signup",
   [
@@ -42,6 +44,15 @@ router.post(
   ],
   authController.postSignUp
 );
+
+router.get('/check-auth-status', isAuth, (req, res) => {
+  // If isAuth middleware sets req.userId when user is authenticated
+  if (req.userId) {
+    res.status(200).json({ isAuthenticated: true });
+  } else {
+    res.status(200).json({ isAuthenticated: false });
+  }
+});
 
 router.post('/logout', authController.postLogout);
 

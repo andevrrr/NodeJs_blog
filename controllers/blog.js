@@ -79,6 +79,8 @@ exports.getPosts = (req, res, next) => {
 
 exports.postAddCommentPost = (req, res, next) => {
   const postId = req.params.postId;
+  const name = req.body.name;
+  const email = req.body.email;
   const commentText = req.body.comment;
 
   Post.findById(postId)
@@ -88,15 +90,16 @@ exports.postAddCommentPost = (req, res, next) => {
       }
 
       const newComment = {
-        name: commentText.name,
-        email: commentText.email,
-        text: commentText.comment,
+        name: name,
+        email: email,
+        text: commentText,
       };
 
       post.comments.push(newComment);
       return post.save();
     })
     .then((result) => {
+      console.log("Comment created successfully!")
       res.redirect(`/posts/${postId}`);
     })
     .catch((err) => {
@@ -107,6 +110,8 @@ exports.postAddCommentPost = (req, res, next) => {
 
 exports.postAddCommentProduct = (req, res, next) => {
   const productId = req.params.productId;
+  const name = req.body.name;
+  const email = req.body.email;
   const commentText = req.body.comment;
 
   Product.findById(productId)
@@ -116,16 +121,16 @@ exports.postAddCommentProduct = (req, res, next) => {
       }
 
       const newComment = {
-        name: commentText.name,
-        email: commentText.email,
-        text: commentText.comment,
+        name: name,
+        email: email,
+        text: commentText,
       };
 
       product.comments.push(newComment);
       return product.save();
     })
     .then(result => {
-      console.log("Comment created successfuly!");
+      console.log("Comment created successfully!")
     })
     .catch((err) => {
       console.log(err);
@@ -142,6 +147,11 @@ exports.getPost = (req, res, next) => {
         post: post,
         comments: post.comments
       })
+      // res.render("blog/post", {
+      //   pageTitle: "Post",
+      //   path: "/post",
+      //   post: post,
+      // });
     })
     .catch((err) => {
       console.log(err);
@@ -158,6 +168,11 @@ exports.getProduct = (req, res, next) => {
         product: product,
         comments: product.comments
       })
+      // res.render("blog/details", {
+      //   pageTitle: "Details",
+      //   path: "/detaild",
+      //   product: product,
+      // });
     })
     .catch((err) => {
       console.log(err);

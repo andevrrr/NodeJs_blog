@@ -1,6 +1,7 @@
 const Service = require("../models/service");
 const Product = require("../models/product");
 const Post = require("../models/post");
+const { validationResult } = require("express-validator");
 
 exports.getMain = (req, res, next) => {
   const post = Post.find().exec();
@@ -83,6 +84,11 @@ exports.postAddCommentPost = (req, res, next) => {
   const email = req.body.email;
   const commentText = req.body.comment;
 
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
+
   Post.findById(postId)
     .then((post) => {
       if (!post) {
@@ -113,6 +119,11 @@ exports.postAddCommentProduct = (req, res, next) => {
   const name = req.body.name;
   const email = req.body.email;
   const commentText = req.body.comment;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() });
+  }
 
   Product.findById(productId)
     .then((product) => {

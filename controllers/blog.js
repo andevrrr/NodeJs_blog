@@ -79,6 +79,8 @@ exports.getPosts = (req, res, next) => {
 
 exports.postAddCommentPost = (req, res, next) => {
   const postId = req.params.postId;
+  const name = req.body.name;
+  const email = req.body.email;
   const commentText = req.body.comment;
 
   Post.findById(postId)
@@ -88,6 +90,8 @@ exports.postAddCommentPost = (req, res, next) => {
       }
 
       const newComment = {
+        name: name,
+        email: email,
         text: commentText,
       };
 
@@ -114,11 +118,16 @@ exports.postAddCommentProduct = (req, res, next) => {
       }
 
       const newComment = {
-        text: commentText,
+        name: commentText.name,
+        email: commentText.email,
+        text: commentText.comment,
       };
 
       product.comments.push(newComment);
       return product.save();
+    })
+    .then(result => {
+      console.log("Comment created successfuly!");
     })
     .catch((err) => {
       console.log(err);
@@ -135,11 +144,6 @@ exports.getPost = (req, res, next) => {
         post: post,
         comments: post.comments
       })
-      // res.render("blog/post", {
-      //   pageTitle: "Post",
-      //   path: "/post",
-      //   post: post,
-      // });
     })
     .catch((err) => {
       console.log(err);
@@ -156,11 +160,6 @@ exports.getProduct = (req, res, next) => {
         product: product,
         comments: product.comments
       })
-      // res.render("blog/details", {
-      //   pageTitle: "Details",
-      //   path: "/detaild",
-      //   product: product,
-      // });
     })
     .catch((err) => {
       console.log(err);

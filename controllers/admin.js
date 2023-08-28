@@ -455,7 +455,7 @@ exports.postEditPost = (req, res, next) => {
     });
 };
 
-exports.postDeleteComment = (Model, redirectUrl) => {
+exports.postDeleteComment = (Model) => {
   return (req, res, next) => {
     const itemId = req.params.id;
     const commentId = req.params.commentId;
@@ -465,8 +465,6 @@ exports.postDeleteComment = (Model, redirectUrl) => {
         if (!item) {
           return res.status(404).json({ message: "Not found" });
         }
-
-        redirectUrl += `/${itemId}`;
 
         // Find the comment by its id and remove it from the comments array
         const commentIndex = item.comments.findIndex(
@@ -480,11 +478,10 @@ exports.postDeleteComment = (Model, redirectUrl) => {
         }
       })
       .then((result) => {
-        res.redirect(redirectUrl); // Redirect to the post list
+        console.log("Succesfully deleted");
       })
       .catch((err) => {
         console.log(err);
-        res.redirect(redirectUrl);
       });
   };
 };

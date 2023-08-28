@@ -79,8 +79,6 @@ exports.getPosts = (req, res, next) => {
 
 exports.postAddCommentPost = (req, res, next) => {
   const postId = req.params.postId;
-  const name = req.body.name;
-  const email = req.body.email;
   const commentText = req.body.comment;
 
   Post.findById(postId)
@@ -90,9 +88,9 @@ exports.postAddCommentPost = (req, res, next) => {
       }
 
       const newComment = {
-        name: name,
-        email: email,
-        text: commentText,
+        name: commentText.name,
+        email: commentText.email,
+        text: commentText.comment,
       };
 
       post.comments.push(newComment);

@@ -22,7 +22,7 @@ const serviceSchema = new Schema({
     isVisible: {
         type: Boolean,
         default: true
-    }
+    },
 })
 
 module.exports = mongoose.model('Service', serviceSchema);

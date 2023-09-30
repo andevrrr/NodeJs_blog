@@ -501,7 +501,7 @@ exports.postStatus = (Model, field) => {
         return item.save();
       })
       .then((result) => {
-        console.log(result)
+        console.log("RESULT: " + result)
       })
       .catch((err) => {
         console.log(err);

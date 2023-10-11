@@ -1,6 +1,7 @@
 const Service = require("../models/service");
 const Product = require("../models/product");
 const Post = require("../models/post");
+const ServiceCategory = require("../models/ServiceCategory");
 const fileHelper = require("../utils/file");
 const path = require('path');
 
@@ -26,46 +27,99 @@ exports.getCreateProduct = (req, res, next) => {
   });
 };
 
-exports.postCreateService = (req, res, next) => {
+exports.getServiceCategories = async (req, res, next) => {
+  try {
+    const serviceCategories = await ServiceCategory.find();
+    res.status(200).json(serviceCategories);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getServicesWithCategories = async (req, res, next) => {
+  try {
+    const services = await Service.find().populate('category');
+    res.status(200).json(services);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.postCreateService = async (req, res, next) => {
   const name = req.body.name;
   const time = req.body.time;
   const price = req.body.price;
+  const category = req.body.category;
+  console.log(category)
+  try {
+    const errors = validationResult(req);
 
-  const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(422).json({
+        message: "Validation failed",
+        errors: errors.array(),
+      });
+    }
 
-  if (!errors.isEmpty()) {
-    return res.status(422).render("admin/service.ejs", {
-      pageTitle: "Add Service",
-      path: "/admin/add-service",
-      hasError: true,
-      editing: false,
-      product: {
-        name: name,
-        time: time,
-        price: price,
-      },
-      errorMessage: errors.array()[0].msg,
+    // Create the service
+    const service = new Service({
+      name: name,
+      time: time,
+      price: price,
+      category: category,
     });
-  }
 
-  const service = new Service({
-    name: name,
-    time: time,
-    price: price,
+    // Save the service
+    const createdService = await service.save();
+
+    // Now, associate the service with the category
+    const foundCategory = await ServiceCategory.findById(category);
+
+    if (!foundCategory) {
+      console.log("the category is not found")
+      return res.status(404).json({ message: "Category not found" });
+    }
+
+    // Associate the service with the category
+    console.log(createdService._id)
+    foundCategory.services.push(createdService._id);
+
+    // Save the updated category
+    const updatedCategory = await foundCategory.save();
+
+    res.status(201).json({
+      message: "Service created successfully",
+      service: createdService,
+      category: updatedCategory,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Failed to create service" });
+  }
+};
+
+
+
+exports.postCreateServiceCategory = (req, res, next) => {
+  const name = req.body.name;
+
+  const serviceCategory = new ServiceCategory({
+    name: name
   });
 
-  return service
+  return serviceCategory
     .save()
-    .then((createdService) => {
+    .then((createdServiceCategory) => {
       res.status(201).json({
-        message: "Service created successfully",
-        service: createdService,
+        message: "Service category created successfully",
+        serviceCategory: createdServiceCategory,
       });
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err);
+      res.status(500).json({ message: "Failed to create service category" });
     });
-};
+}
 
 exports.postCreateProduct = (req, res, next) => {
   // if (!image) {
@@ -164,6 +218,22 @@ exports.postDeleteService = (req, res, next) => {
   const serviceId = req.params.serviceId;
 
   Service.findByIdAndRemove(serviceId)
+    .then((deletedService) => {
+      if (!deletedService) {
+        return res.status(404).json({ message: "Service not found" });
+      }
+
+      // If the service was associated with a category, remove its reference from the category
+      const categoryId = deletedService.category;
+      if (categoryId) {
+        return ServiceCategory.findById(categoryId).then((category) => {
+          if (category) {
+            category.services.pull(deletedService._id);
+            return category.save();
+          }
+        });
+      }
+    })
     .then(() => {
       res.status(200).json({
         message: "Service deleted successfully.",
@@ -171,8 +241,10 @@ exports.postDeleteService = (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
+      res.status(500).json({ message: "Failed to delete service" });
     });
 };
+
 
 exports.getEditProduct = (req, res, next) => {
   const editMode = req.query.edit;
@@ -280,46 +352,72 @@ exports.getEditService = (req, res, next) => {
     });
 };
 
-exports.postEditService = (req, res, next) => {
+exports.postEditService = async (req, res, next) => {
   const serviceId = req.params.serviceId;
   const name = req.body.name;
   const time = req.body.time;
   const price = req.body.price;
-  const errors = validationResult(req);
+  const category = req.body.category; // Assuming the new category ID is sent in the request body
 
-  if (!errors.isEmpty()) {
-    return res.status(422).render("admin/service.ejs", {
-      pageTitle: "Edit Service",
-      path: "/admin/edit-service",
-      hasError: true,
-      editing: true,
-      product: {
-        name: name,
-        time: time,
-        price: price,
-      },
-      errorMessage: errors.array()[0].msg,
-    });
-  }
+  try {
+    const errors = validationResult(req);
 
-  Service.findById(serviceId)
-    .then((service) => {
-      service.name = name;
-      service.time = time;
-      service.price = price;
-
-      return service.save();
-    })
-    .then((updatedService) => {
-      res.status(201).json({
-        message: "Service updated successfully.",
-        service: updatedService,
+    if (!errors.isEmpty()) {
+      return res.status(422).render("admin/service.ejs", {
+        pageTitle: "Edit Service",
+        path: "/admin/edit-service",
+        hasError: true,
+        editing: true,
+        product: {
+          name: name,
+          time: time,
+          price: price,
+        },
+        errorMessage: errors.array()[0].msg,
       });
-    })
-    .catch((err) => {
-      console.log(err);
+    }
+
+    const service = await Service.findById(serviceId);
+
+    if (!service) {
+      return res.status(404).json({ message: "Service not found" });
+    }
+
+    // Remove the service from its previous category (if it had one)
+    if (service.category) {
+      const prevCategory = await ServiceCategory.findById(service.category);
+      prevCategory.services.pull(serviceId);
+      await prevCategory.save();
+    }
+
+    // Update the service's properties and category
+    service.name = name;
+    service.time = time;
+    service.price = price;
+    service.category = category;
+
+    // Add the service to the new category (if a new category is provided)
+    if (category) {
+      const foundCategory = await ServiceCategory.findById(category);
+      if (foundCategory) {
+        foundCategory.services.push(serviceId);
+        await foundCategory.save();
+      }
+    }
+
+    const updatedService = await service.save();
+
+    res.status(200).json({
+      message: "Service updated successfully.",
+      service: updatedService,
     });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Failed to update service" });
+  }
 };
+
+
 
 exports.getCreatePost = (req, res, next) => {
   res.render("admin/post.ejs", {

@@ -14,6 +14,12 @@ router.get("/add-service", isAuth, adminController.getCreateService);
 
 router.post("/add-service", isAuth, adminController.postCreateService);
 
+router.post("/add-service-category", isAuth, adminController.postCreateServiceCategory);
+
+router.get("/get-service-category", adminController.getServiceCategories);
+
+router.get("/get-service-with-category", isAuth, adminController.getServicesWithCategories);
+
 router.get("/add-product", isAuth, adminController.getCreateProduct);
 
 router.post("/add-product", isAuth, adminController.postCreateProduct);

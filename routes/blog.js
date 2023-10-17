@@ -14,6 +14,8 @@ router.get("/products", blogController.getProducts);
 
 router.get("/posts", blogController.getPosts);
 
+router.get("/categories", blogController.getServicesCategories);
+
 router.post(
   "/posts/:postId/comments",
   check("email")

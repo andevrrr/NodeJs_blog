@@ -413,7 +413,7 @@ exports.postEditService = async (req, res, next) => {
     const updatedService = await service.save();
 
     // Notify clients using socket.io about the service update
-    io.getIO().emit('posts', { action: 'update', service: updatedService });
+    //io.getIO().emit('posts', { action: 'update', service: updatedService });
 
     res.status(200).json({
       message: "Service updated successfully.",

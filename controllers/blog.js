@@ -2,7 +2,7 @@ const Service = require("../models/service");
 const Product = require("../models/product");
 const Post = require("../models/post");
 const { validationResult } = require("express-validator");
-
+const ServiceCategory = require("../models/ServiceCategory");
 const io = require('../socket');
 
 exports.getMain = (req, res, next) => {
@@ -25,14 +25,26 @@ exports.getMain = (req, res, next) => {
     });
 };
 
+exports.getServicesCategories = (req, res, next) => {
+  ServiceCategory.find()
+    .then((categories) => {
+      if (!categories) {
+        return res.status(404).json({ message: "Categories not found" });
+      }
+      res.status(200).json({
+        message: "Fetched categories successfully",
+        categories: categories 
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Internal Server Error" });
+    });
+};
+
 exports.getServices = (req, res, next) => {
   Service.find({ isVisible: true })
     .then((services) => {
-      // res.render("blog/services", {
-      //   pageTitle: "Our services",
-      //   path: "/services",
-      //   services: services,
-      // });
       if (!services) {
         return res.status(404).json({ message: "Services not found" });
       }

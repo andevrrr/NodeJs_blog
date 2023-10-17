@@ -26,14 +26,16 @@ exports.getMain = (req, res, next) => {
 };
 
 exports.getServices = (req, res, next) => {
-  Service.find()
+  Service.find({ isVisible: true })
     .then((services) => {
       // res.render("blog/services", {
       //   pageTitle: "Our services",
       //   path: "/services",
       //   services: services,
       // });
-
+      if (!services) {
+        return res.status(404).json({ message: "Services not found" });
+      }
       res.status(200).json({
         message: "Fetched services successfully",
         services: services 
@@ -41,17 +43,21 @@ exports.getServices = (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
+      res.status(500).json({ message: "Internal Server Error" });
     });
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.find()
+  Product.find({ isVisible: true })
     .then((products) => {
       // res.render("blog/products", {
       //   pageTitle: "Our products",
       //   path: "/products",
       //   products: products,
       // });
+      if (!products) {
+        return res.status(404).json({ message: "Products not found" });
+      }
       res.status(200).json({
         message: "Fetched products successfully",
         products: products
@@ -63,13 +69,16 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.getPosts = (req, res, next) => {
-  Post.find()
+  Post.find({ isVisible: true })
     .then((posts) => {
       // res.render("blog/posts", {
       //   pageTitle: "Posts",
       //   path: "/posts",
       //   posts: posts,
       // });
+      if (!posts) {
+        return res.status(404).json({ message: "Posts not found" });
+      }
       res.status(200).json({
         message: 'Fethced posts successfully',
         posts: posts

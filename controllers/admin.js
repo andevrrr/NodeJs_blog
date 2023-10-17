@@ -110,13 +110,11 @@ exports.postCreateServiceCategory = (req, res, next) => {
 
   return serviceCategory
     .save()
-<<<<<<< HEAD
     .then((createdService) => {
       const io = socketIO.getIO();
       io.emit('services', { action: 'create', service: createdService });
-=======
+    })
     .then((createdServiceCategory) => {
->>>>>>> 875296b5138109c3ae17f33d950a53b1422ae6c7
       res.status(201).json({
         message: "Service category created successfully",
         serviceCategory: createdServiceCategory,
@@ -369,22 +367,6 @@ exports.postEditService = async (req, res, next) => {
   try {
     const errors = validationResult(req);
 
-<<<<<<< HEAD
-  Service.findById(serviceId)
-    .then((service) => {
-      service.name = name;
-      service.time = time;
-      service.price = price;
-
-      const result = service.save();
-      io.getIO().emit('posts', { action: 'update', service: result });
-      return result;
-    })
-    .then((updatedService) => {
-      res.status(201).json({
-        message: "Service updated successfully.",
-        service: updatedService,
-=======
     if (!errors.isEmpty()) {
       return res.status(422).render("admin/service.ejs", {
         pageTitle: "Edit Service",
@@ -397,7 +379,6 @@ exports.postEditService = async (req, res, next) => {
           price: price,
         },
         errorMessage: errors.array()[0].msg,
->>>>>>> 875296b5138109c3ae17f33d950a53b1422ae6c7
       });
     }
 
@@ -431,6 +412,9 @@ exports.postEditService = async (req, res, next) => {
 
     const updatedService = await service.save();
 
+    // Notify clients using socket.io about the service update
+    io.getIO().emit('posts', { action: 'update', service: updatedService });
+
     res.status(200).json({
       message: "Service updated successfully.",
       service: updatedService,
@@ -440,8 +424,6 @@ exports.postEditService = async (req, res, next) => {
     res.status(500).json({ message: "Failed to update service" });
   }
 };
-
-
 
 exports.getCreatePost = (req, res, next) => {
   res.render("admin/post.ejs", {

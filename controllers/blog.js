@@ -3,6 +3,8 @@ const Product = require("../models/product");
 const Post = require("../models/post");
 const { validationResult } = require("express-validator");
 
+const io = require('../socket');
+
 exports.getMain = (req, res, next) => {
   const post = Post.find().exec();
   const service = Service.find().exec();
@@ -141,6 +143,10 @@ exports.postAddCommentProduct = (req, res, next) => {
       return product.save();
     })
     .then(result => {
+      io.emit('comments', {
+        productId: productId,
+        newComment: result.comments[result.comments.length - 1] // Emit the last added comment
+      });
       console.log("Comment created successfully!")
     })
     .catch((err) => {

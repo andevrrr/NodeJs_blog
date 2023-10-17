@@ -4,6 +4,7 @@ const Post = require("../models/post");
 const fileHelper = require("../utils/file");
 const path = require('path');
 
+const socketIO = require('../socket');
 const { validationResult } = require("express-validator");
 
 exports.getCreateService = (req, res, next) => {
@@ -57,6 +58,8 @@ exports.postCreateService = (req, res, next) => {
   return service
     .save()
     .then((createdService) => {
+      const io = socketIO.getIO();
+      io.emit('services', { action: 'create', service: createdService });
       res.status(201).json({
         message: "Service created successfully",
         service: createdService,
@@ -308,7 +311,9 @@ exports.postEditService = (req, res, next) => {
       service.time = time;
       service.price = price;
 
-      return service.save();
+      const result = service.save();
+      io.getIO().emit('posts', { action: 'update', service: result });
+      return result;
     })
     .then((updatedService) => {
       res.status(201).json({

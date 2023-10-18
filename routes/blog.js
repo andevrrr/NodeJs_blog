@@ -14,7 +14,9 @@ router.get("/products", blogController.getProducts);
 
 router.get("/posts", blogController.getPosts);
 
-router.get("/categories", blogController.getServicesCategories);
+router.get("/service-categories", blogController.getServicesCategories);
+
+router.get("/product-categories", blogController.getProductsCategories);
 
 router.post(
   "/posts/:postId/comments",

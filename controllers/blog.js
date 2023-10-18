@@ -3,6 +3,7 @@ const Product = require("../models/product");
 const Post = require("../models/post");
 const { validationResult } = require("express-validator");
 const ServiceCategory = require("../models/ServiceCategory");
+const ProductCategory = require("../models/ProductCategory");
 const io = require('../socket');
 
 exports.getMain = (req, res, next) => {
@@ -22,6 +23,23 @@ exports.getMain = (req, res, next) => {
     })
     .catch((err) => {
       console.log("/");
+    });
+};
+
+exports.getProductsCategories = (req, res, next) => {
+  ProductCategory.find()
+    .then((categories) => {
+      if (!categories) {
+        return res.status(404).json({ message: "Categories not found" });
+      }
+      res.status(200).json({
+        message: "Fetched categories successfully",
+        categories: categories 
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: "Internal Server Error" });
     });
 };
 

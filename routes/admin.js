@@ -14,11 +14,15 @@ router.get("/add-service", isAuth, adminController.getCreateService);
 
 router.post("/add-service", isAuth, adminController.postCreateService);
 
-router.post("/add-service-category", isAuth, adminController.postCreateServiceCategory);
+router.post("/add-service-category",  adminController.postCreateServiceCategory);
 
-router.get("/get-service-category", adminController.getServiceCategories);
+router.post("/add-product-category",  adminController.postCreateProductCategory);
 
-router.get("/get-service-with-category", isAuth, adminController.getServicesWithCategories);
+router.get("/get-service-category",  adminController.getServiceCategories);
+
+router.get("/get-product-category",  adminController.getProductCategories);
+
+//router.get("/get-service-with-category", isAuth, adminController.getServicesWithCategories);
 
 router.get("/add-product", isAuth, adminController.getCreateProduct);
 

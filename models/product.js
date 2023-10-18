@@ -33,7 +33,13 @@ const productSchema = new Schema({
         type: Boolean,
         default: true
     },
-    comments: [commentSchema] 
+    category: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "ProductCategory",
+        },
+      ],
+    comments: [commentSchema]
 });
 
 module.exports = mongoose.model('Product', productSchema);

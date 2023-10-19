@@ -7,9 +7,13 @@ const serviceSchema = new Schema({
     type: String,
     required: true,
   },
-  time: {
+  description: {
     type: String,
     required: true,
+  },
+  time: {
+    type: String,
+    required: false,
   },
   price: {
     type: String,

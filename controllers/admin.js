@@ -58,6 +58,7 @@ exports.getProductCategories = async (req, res, next) => {
 
 exports.postCreateService = async (req, res, next) => {
   const name = req.body.name;
+  const description = req.body.description;
   const time = req.body.time;
   const price = req.body.price;
   const category = req.body.category;
@@ -75,6 +76,7 @@ exports.postCreateService = async (req, res, next) => {
     // Create the service
     const service = new Service({
       name: name,
+      description: description,
       time: time,
       price: price,
       category: category,
@@ -408,6 +410,7 @@ exports.getEditService = (req, res, next) => {
 exports.postEditService = async (req, res, next) => {
   const serviceId = req.params.serviceId;
   const name = req.body.name;
+  const description = req.body.description;
   const time = req.body.time;
   const price = req.body.price;
   const category = req.body.category; // Assuming the new category ID is sent in the request body
@@ -445,6 +448,7 @@ exports.postEditService = async (req, res, next) => {
 
     // Update the service's properties and category
     service.name = name;
+    service.description = description;
     service.time = time;
     service.price = price;
     service.category = category;
